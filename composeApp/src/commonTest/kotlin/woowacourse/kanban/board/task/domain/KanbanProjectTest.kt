@@ -4,7 +4,6 @@ import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Assert.assertThrows
 
-
 class KanbanProjectTest {
     @Test
     fun `boardId에 따라 KanbanCard를 분류한다`() {

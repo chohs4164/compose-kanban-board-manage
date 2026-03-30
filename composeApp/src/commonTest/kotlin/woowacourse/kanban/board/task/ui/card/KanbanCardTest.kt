@@ -2,7 +2,6 @@ package woowacourse.kanban.board.task.ui.card
 
 import androidx.compose.ui.semantics.SemanticsActions.GetTextLayoutResult
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performSemanticsAction
@@ -11,7 +10,6 @@ import androidx.compose.ui.text.TextLayoutResult
 import kotlin.test.assertEquals
 import org.junit.Test
 import woowacourse.kanban.board.task.domain.KanbanCard
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
 @OptIn(ExperimentalTestApi::class)

@@ -9,8 +9,8 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.runComposeUiTest
-import woowacourse.kanban.board.task.domain.KanbanBoard
 import kotlin.test.Test
+import woowacourse.kanban.board.task.domain.KanbanBoard
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanBoardScreenTest {

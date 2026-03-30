@@ -19,5 +19,4 @@ class KanbanCardTest {
         assertThat(updateKanbanCard.status).isNotEqualTo(KanbanStatus.TO_DO)
         assertThat(updateKanbanCard.status).isNotEqualTo(KanbanStatus.DONE)
     }
-
 }

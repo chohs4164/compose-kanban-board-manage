@@ -1,8 +1,8 @@
 package woowacourse.kanban.board.task.domain
 
+import kotlin.collections.listOf
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
-import kotlin.collections.listOf
 
 class KanbanBoardTest {
     @Test
@@ -34,7 +34,6 @@ class KanbanBoardTest {
         assertThat(board.totalCount).isEqualTo(4)
         assertThat(board.doneCount).isEqualTo(1)
     }
-
 
     @Test
     fun `카드가 없다면 완료율은 0이다`() {

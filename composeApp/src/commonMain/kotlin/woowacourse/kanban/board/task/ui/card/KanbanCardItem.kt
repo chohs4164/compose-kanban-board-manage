@@ -120,9 +120,7 @@ private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<Kanb
 
 @Preview
 @Composable
-private fun KanbanCardItemPreview(
-    @PreviewParameter(KanbanCardPreviewParameterProvider::class) card: KanbanCard
-) {
+private fun KanbanCardItemPreview(@PreviewParameter(KanbanCardPreviewParameterProvider::class) card: KanbanCard) {
     val kanbanCard = KanbanCard(
         id = 0,
         boardId = 0,
@@ -130,9 +128,9 @@ private fun KanbanCardItemPreview(
         assigneeName = card.assigneeName,
         status = card.status,
         content = card.content,
-        tags = card.tags
+        tags = card.tags,
     )
     KanbanCardItem(
-        kanbanCard = kanbanCard
+        kanbanCard = kanbanCard,
     )
 }

@@ -5,7 +5,6 @@ import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.runComposeUiTest
 import org.junit.Test
 import woowacourse.kanban.board.task.domain.KanbanCard
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
 @OptIn(ExperimentalTestApi::class)
