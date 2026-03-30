@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.task.ui.modal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
@@ -34,19 +36,23 @@ fun ModalBodyInput(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    // 상태에 따른 supporting message
     val supportingText = when (validType) {
         TaskErrorType.TITLE_MISSED -> stringResource(Res.string.error_empty_title)
         TaskErrorType.TAG_FORMAT -> stringResource(Res.string.error_invalid_tag_format)
         TaskErrorType.TAG_DEFAULT -> stringResource(Res.string.supporting_text_tags)
         TaskErrorType.TAG_SIZE -> stringResource(Res.string.error_max_tags_format)
         TaskErrorType.TITLE_DEFAULT -> ""
+        TaskErrorType.DESCRIPTION_DEFAULT -> ""
     }
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         modifier = modifier.fillMaxWidth(),
     ) {
+        // textfield와 제목 묶음에서 제목
         ModalInputTitle(title)
 
+        // textfield의 textfield와 supporting message
         ModalInputField(
             value = state,
             onValueChange = onValueChange,
@@ -62,7 +68,9 @@ fun ModalBodyInput(
 @Composable
 private fun ModalBodyInputPreview() {
     Box(
-        modifier = Modifier.padding(10.dp),
+        modifier = Modifier
+            .background(Color.White)
+            .padding(10.dp),
     ) {
         var state by remember { mutableStateOf("") }
         ModalBodyInput(

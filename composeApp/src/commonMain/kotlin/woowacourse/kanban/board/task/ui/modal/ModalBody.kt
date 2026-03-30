@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.task.ui.modal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
@@ -31,11 +33,11 @@ import woowacourse.kanban.board.theme.StatusButtonBackground
 
 @Composable
 fun ModalBody(
+    modifier: Modifier = Modifier,
     state: ModalCreateFormState,
     assignee: List<String>,
     onDismissRequest: () -> Unit,
     onCreate: (KanbanCardForm, KanbanStatus) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier
@@ -43,6 +45,7 @@ fun ModalBody(
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
+        // 제목 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_title),
             placeholder = stringResource(Res.string.place_holder_input_title),
@@ -56,18 +59,20 @@ fun ModalBody(
             isValid = state.isValidTitle,
         )
 
+        // 설명 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_description),
             placeholder = stringResource(Res.string.place_holder_input_description),
             maxLines = 5,
-            validType = TaskErrorType.TITLE_DEFAULT,
+            validType = TaskErrorType.DESCRIPTION_DEFAULT,
             state = state.content,
             onValueChange = {
                 state.content = it
             },
-            isValid = true,
+            isValid = true, // 설명은 유효성 검사 필요 없음
         )
 
+        // 태그 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_tags),
             placeholder = stringResource(Res.string.place_holder_input_tags),
@@ -81,6 +86,7 @@ fun ModalBody(
             isValid = state.validTag == TaskErrorType.TAG_DEFAULT,
         )
 
+        // 상태 영역
         ModalSelector(
             title = stringResource(Res.string.label_status),
             content = {
@@ -103,6 +109,7 @@ fun ModalBody(
             },
         )
 
+        // 담당자
         ModalSelector(
             title = stringResource(Res.string.label_status),
             content = {
@@ -148,6 +155,7 @@ fun ModalBody(
 private fun ModalBodyPreview() {
     val state = remember { ModalCreateFormState() }
     ModalBody(
+        modifier = Modifier.background(Color.White),
         state = state,
         assignee = TaskMockData.assignees,
         onDismissRequest = {},
