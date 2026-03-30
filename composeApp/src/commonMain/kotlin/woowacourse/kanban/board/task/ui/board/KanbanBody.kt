@@ -40,15 +40,15 @@ import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.ui.card.KanbanCardItem
-import woowacourse.kanban.board.theme.Blue50
 import woowacourse.kanban.board.theme.Blue200
+import woowacourse.kanban.board.theme.Blue50
 import woowacourse.kanban.board.theme.Blue600
-import woowacourse.kanban.board.theme.Green50
 import woowacourse.kanban.board.theme.Green200
+import woowacourse.kanban.board.theme.Green50
 import woowacourse.kanban.board.theme.Green600
 import woowacourse.kanban.board.theme.Orange600
-import woowacourse.kanban.board.theme.Yellow50
 import woowacourse.kanban.board.theme.Yellow300
+import woowacourse.kanban.board.theme.Yellow50
 
 @Composable
 fun KanbanBody(

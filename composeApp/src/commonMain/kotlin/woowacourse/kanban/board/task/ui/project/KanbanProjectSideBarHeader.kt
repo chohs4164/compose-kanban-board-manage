@@ -22,10 +22,7 @@ import woowacourse.kanban.board.theme.Gray500
 import woowacourse.kanban.board.theme.Gray900
 
 @Composable
-fun KanbanProjectSideBarHeader(
-    title: String,
-    modifier: Modifier = Modifier,
-) {
+fun KanbanProjectSideBarHeader(title: String, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .border(

@@ -9,12 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun KanbanProjectSideBarItem(
-    selected: Int,
-    kanbanBoardTitles: List<String>,
-    onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun KanbanProjectSideBarItem(selected: Int, kanbanBoardTitles: List<String>, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .padding(16.dp),

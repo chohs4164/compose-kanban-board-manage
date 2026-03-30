@@ -13,7 +13,6 @@ import kanbanboard.composeapp.generated.resources.status_to_do
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
-
 @Composable
 fun ModalOptionStatus(modifier: Modifier = Modifier, kanbanStatus: KanbanStatus) {
     val status = when (kanbanStatus) {

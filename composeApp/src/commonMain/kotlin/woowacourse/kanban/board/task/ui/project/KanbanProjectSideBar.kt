@@ -17,13 +17,7 @@ import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.theme.Gray200
 
 @Composable
-fun KanbanProjectSideBar(
-    title: String,
-    boardTitle: List<String>,
-    selected: Int,
-    onClick: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun KanbanProjectSideBar(title: String, boardTitle: List<String>, selected: Int, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .width(255.dp)

@@ -10,12 +10,7 @@ data class KanbanCard(
     val tags: List<String> = emptyList(),
 ) {
     companion object {
-        fun create(
-            newId:Long,
-            boardId: Int,
-            form: KanbanCardForm,
-            status: KanbanStatus,
-        ): KanbanCard {
+        fun create(newId: Long, boardId: Int, form: KanbanCardForm, status: KanbanStatus): KanbanCard {
             return KanbanCard(
                 id = newId,
                 boardId = boardId,

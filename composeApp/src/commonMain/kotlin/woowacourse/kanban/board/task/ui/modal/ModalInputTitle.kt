@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.label_description
 import kanbanboard.composeapp.generated.resources.label_title
 import org.jetbrains.compose.resources.stringResource
 

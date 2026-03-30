@@ -20,12 +20,7 @@ import woowacourse.kanban.board.theme.Indigo50
 import woowacourse.kanban.board.theme.Violet700
 
 @Composable
-fun KanbanProjectSideBarButton(
-    isSelected: Boolean,
-    buttonText: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-) {
+fun KanbanProjectSideBarButton(isSelected: Boolean, buttonText: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val containerColor = if (isSelected) Indigo50 else Color.Transparent
     val contentColor = if (isSelected) Violet700 else Color.Black
     Box(
@@ -62,7 +57,7 @@ private fun KanbanProjectSideBarButtonPreview() {
             isSelected = false,
             buttonText = "Compose2",
             onClick = {},
-            modifier = Modifier.background(Color.White)
+            modifier = Modifier.background(Color.White),
         )
     }
 }
