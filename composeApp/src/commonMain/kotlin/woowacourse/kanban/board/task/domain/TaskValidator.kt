@@ -2,8 +2,8 @@ package woowacourse.kanban.board.task.domain
 
 object TaskValidator {
     fun validateTitle(title: String): TaskErrorType {
-        if (title.isBlank()) return TaskErrorType.TITLE_FORMAT
-        return TaskErrorType.DEFAULT
+        if (title.isBlank()) return TaskErrorType.TITLE_MISSED
+        return TaskErrorType.TITLE_DEFAULT
     }
 
     fun validateTags(tagInput: String): TaskErrorType {

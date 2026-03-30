@@ -35,11 +35,11 @@ fun ModalBodyInput(
     modifier: Modifier = Modifier,
 ) {
     val supportingText = when (validType) {
-        TaskErrorType.TITLE_FORMAT -> stringResource(Res.string.error_empty_title)
+        TaskErrorType.TITLE_MISSED -> stringResource(Res.string.error_empty_title)
         TaskErrorType.TAG_FORMAT -> stringResource(Res.string.error_invalid_tag_format)
         TaskErrorType.TAG_DEFAULT -> stringResource(Res.string.supporting_text_tags)
         TaskErrorType.TAG_SIZE -> stringResource(Res.string.error_max_tags_format)
-        TaskErrorType.DEFAULT -> ""
+        TaskErrorType.TITLE_DEFAULT -> ""
     }
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -69,7 +69,7 @@ private fun ModalBodyInputPreview() {
             title = stringResource(Res.string.label_title),
             placeholder = stringResource(Res.string.place_holder_input_title),
             maxLines = 1,
-            validType = TaskErrorType.TITLE_FORMAT,
+            validType = TaskErrorType.TITLE_MISSED,
             state = state,
             onValueChange = {
                 state = it

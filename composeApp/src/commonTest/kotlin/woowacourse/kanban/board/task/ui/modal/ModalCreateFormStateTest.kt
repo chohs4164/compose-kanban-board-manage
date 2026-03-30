@@ -20,7 +20,7 @@ class ModalCreateFormStateTest {
         state.title = ""
         state.validate()
         assertFalse(state.isValidTitle)
-        assertEquals(TaskErrorType.TITLE_FORMAT, state.validTitle)
+        assertEquals(TaskErrorType.TITLE_MISSED, state.validTitle)
     }
 
     @Test
@@ -28,7 +28,7 @@ class ModalCreateFormStateTest {
         state.title = "태스크 제목"
         state.validate()
         assertTrue(state.isValidTitle)
-        assertEquals(TaskErrorType.DEFAULT, state.validTitle)
+        assertEquals(TaskErrorType.TITLE_DEFAULT, state.validTitle)
     }
 
     @Test
