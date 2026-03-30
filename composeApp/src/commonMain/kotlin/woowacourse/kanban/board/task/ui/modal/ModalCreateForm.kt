@@ -20,11 +20,12 @@ import woowacourse.kanban.board.task.domain.TaskMockData
 
 @Composable
 fun ModalCreateForm(
+    modifier: Modifier = Modifier,
     assignee: List<String>,
     onDismissRequest: () -> Unit,
     onCreate: (KanbanCardForm, KanbanStatus) -> Unit,
-    modifier: Modifier = Modifier,
 ) {
+    // 모달의 내용과 상태
     val state = remember { ModalCreateFormState() }
 
     Dialog(
@@ -40,13 +41,11 @@ fun ModalCreateForm(
                     RoundedCornerShape(10.dp),
                 ),
         ) {
+            // 모달 헤더
             ModalHeader(onDismissRequest = onDismissRequest)
 
-            HorizontalDivider(
-                thickness = Dp.Hairline,
-                color = Color.LightGray,
-            )
-
+            HorizontalDivider(color = Color.LightGray)
+            // 모달 바디
             ModalBody(
                 state = state,
                 assignee = assignee,
