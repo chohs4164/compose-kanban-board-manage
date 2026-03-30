@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.label_assignee
 import kanbanboard.composeapp.generated.resources.label_status
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanStatus
@@ -81,7 +82,7 @@ private fun ModalAssigneeSelectorPreview() {
 
     ModalSelector(
         modifier = Modifier.background(Color.White),
-        title = stringResource(Res.string.label_status),
+        title = stringResource(Res.string.label_assignee),
         content = {
             itemsIndexed(
                 TaskMockData.assignees,
