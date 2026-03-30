@@ -121,12 +121,12 @@ class KanbanProjectTest {
         )
         val Board2 = KanbanBoard(
             title = "보드",
-            cards = project.getKanbanCardByBoardId(0),
+            cards = updateProject.getKanbanCardByBoardId(0),
         )
 
         assertThat(Board1.doneCount).isEqualTo(1)
         assertThat(Board2.doneCount).isEqualTo(0)
-        assertThat(Board2.doneCount).isEqualTo(Board2.totalCount)
+        assertThat(Board2.totalCount).isEqualTo(Board1.totalCount)
     }
 
     private fun createKanbanCard(cardId: Long, boardId: Int, status: KanbanStatus = KanbanStatus.TO_DO) = KanbanCard(
