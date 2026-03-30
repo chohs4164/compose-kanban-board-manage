@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.task.ui.board
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,7 +35,6 @@ fun KanbanBoardHeader(modifier: Modifier = Modifier, title: String, doneCount: I
                 title = title,
                 doneCount = doneCount,
                 totalCount = totalCount,
-                progress = progress,
             )
             BoardCreateButton(onCreateClick = onCreateClick)
         }
@@ -55,6 +55,7 @@ fun KanbanBoardHeader(modifier: Modifier = Modifier, title: String, doneCount: I
 @Composable
 private fun KanbanBoardHeaderPreview() {
     KanbanBoardHeader(
+        modifier = Modifier.background(Color.White),
         title = "보드 제목",
         doneCount = 1,
         totalCount = 3,
