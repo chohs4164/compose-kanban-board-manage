@@ -1,0 +1,32 @@
+package woowacourse.kanban.board.task.ui.project
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun KanbanProjectSideBarItem(
+    selected: Int,
+    kanbanBoardTitles: List<String>,
+    onClick: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
+        modifier = modifier
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        kanbanBoardTitles.forEachIndexed { index, buttonText ->
+            KanbanProjectSideBarButton(
+                modifier = Modifier.fillMaxWidth(),
+                isSelected = selected == index,
+                buttonText = buttonText,
+                onClick = { onClick(index) },
+            )
+        }
+    }
+}
