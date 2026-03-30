@@ -17,9 +17,9 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.project_title
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.theme.BorderButtonDefault
-import woowacourse.kanban.board.theme.color1
-import woowacourse.kanban.board.theme.color2
+import woowacourse.kanban.board.theme.Gray200
+import woowacourse.kanban.board.theme.Gray500
+import woowacourse.kanban.board.theme.Gray900
 
 @Composable
 fun KanbanProjectSideBarHeader(
@@ -30,7 +30,7 @@ fun KanbanProjectSideBarHeader(
         modifier = modifier
             .border(
                 width = 1.dp,
-                color = BorderButtonDefault,
+                color = Gray200,
             )
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp),
@@ -39,11 +39,11 @@ fun KanbanProjectSideBarHeader(
             text = stringResource(Res.string.project_title),
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
-            color = color1,
+            color = Gray900,
         )
         Text(
             text = title,
-            color = color2,
+            color = Gray500,
             fontSize = 14.sp,
         )
     }

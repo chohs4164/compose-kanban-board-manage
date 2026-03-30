@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.theme.BoardSelectBackground
-import woowacourse.kanban.board.theme.BoardSelectText
+import woowacourse.kanban.board.theme.Indigo50
+import woowacourse.kanban.board.theme.Violet700
 
 @Composable
 fun KanbanProjectSideBarButton(
@@ -26,8 +26,8 @@ fun KanbanProjectSideBarButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val containerColor = if (isSelected) BoardSelectBackground else Color.Transparent
-    val contentColor = if (isSelected) BoardSelectText else Color.Black
+    val containerColor = if (isSelected) Indigo50 else Color.Transparent
+    val contentColor = if (isSelected) Violet700 else Color.Black
     Box(
         modifier = modifier
             .clip(RoundedCornerShape(10.dp))

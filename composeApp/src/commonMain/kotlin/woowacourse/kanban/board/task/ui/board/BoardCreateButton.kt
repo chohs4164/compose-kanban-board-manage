@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.button_task_create
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.theme.CreateButtonBackground
+import woowacourse.kanban.board.theme.Violet600
 
 @Composable
 fun BoardCreateButton(modifier: Modifier = Modifier, onCreateClick: () -> Unit) {
@@ -28,7 +28,7 @@ fun BoardCreateButton(modifier: Modifier = Modifier, onCreateClick: () -> Unit) 
         modifier = modifier.height(40.dp),
         onClick = onCreateClick,
         colors = ButtonDefaults.buttonColors(
-            containerColor = CreateButtonBackground,
+            containerColor = Violet600,
             contentColor = Color.White,
         ),
         shape = RoundedCornerShape(10.dp),

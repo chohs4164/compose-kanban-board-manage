@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.progress_text
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.theme.ProgressText
+import woowacourse.kanban.board.theme.Gray500
 
 @Composable
 fun BoardHeaderTitleProgress(modifier: Modifier = Modifier, title: String, doneCount: Int, totalCount: Int) {
@@ -39,7 +39,7 @@ fun BoardHeaderTitleProgress(modifier: Modifier = Modifier, title: String, doneC
                 doneCount,
                 totalCount,
             ),
-            color = ProgressText,
+            color = Gray500,
             fontSize = 14.sp,
         )
     }

@@ -20,7 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.theme.SnackBarBackground
+import woowacourse.kanban.board.theme.Gray800
 
 @Composable
 fun SnackBarCard(modifier: Modifier = Modifier, message: String, onDismiss: () -> Unit) {
@@ -29,7 +29,7 @@ fun SnackBarCard(modifier: Modifier = Modifier, message: String, onDismiss: () -
             .width(344.dp)
             .height(48.dp)
             .background(
-                color = SnackBarBackground,
+                color = Gray800,
                 shape = RoundedCornerShape(4.dp),
             )
             .padding(

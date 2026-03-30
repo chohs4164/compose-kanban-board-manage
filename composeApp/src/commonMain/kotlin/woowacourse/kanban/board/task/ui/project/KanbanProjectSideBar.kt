@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.theme.BorderButtonDefault
+import woowacourse.kanban.board.theme.Gray200
 
 @Composable
 fun KanbanProjectSideBar(
@@ -29,7 +29,7 @@ fun KanbanProjectSideBar(
             .width(255.dp)
             .border(
                 width = 1.dp,
-                color = BorderButtonDefault,
+                color = Gray200,
             )
             .background(Color.White),
     ) {

@@ -15,8 +15,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.theme.color3
-import woowacourse.kanban.board.theme.color4
+import woowacourse.kanban.board.theme.Gray950
+import woowacourse.kanban.board.theme.Red700
 
 @Composable
 fun ModalInputField(
@@ -29,9 +29,9 @@ fun ModalInputField(
     modifier: Modifier = Modifier,
 ) {
     // 내용 색
-    val valueColor = if (isValid) Color.Black else color3
+    val valueColor = if (isValid) Color.Black else Red700
     // hint message와 supporting message 색
-    val placeHolderColor = if (isValid) color4.copy(alpha = 0.5f) else color3
+    val placeHolderColor = if (isValid) Gray950.copy(alpha = 0.5f) else Red700
     Column(
         modifier = modifier,
     ) {

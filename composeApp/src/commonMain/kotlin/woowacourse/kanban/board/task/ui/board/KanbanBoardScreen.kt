@@ -40,7 +40,7 @@ import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.modal.ModalCreateForm
-import woowacourse.kanban.board.theme.BoardBackground
+import woowacourse.kanban.board.theme.Gray50
 
 @Composable
 fun KanbanBoardScreen(
@@ -115,7 +115,7 @@ fun KanbanBoardScreen(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxWidth()
-                    .background(BoardBackground)
+                    .background(Gray50)
                     .padding(24.dp),
                 getIsDropTarget = getIsDropTarget,
                 onBoundsChanged = onBoundsChanged,

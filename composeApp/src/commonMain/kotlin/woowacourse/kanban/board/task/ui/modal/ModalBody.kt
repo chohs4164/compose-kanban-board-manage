@@ -26,10 +26,10 @@ import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskMockData
-import woowacourse.kanban.board.theme.AssigneeButtonBackground
-import woowacourse.kanban.board.theme.BorderAssigneeButton
-import woowacourse.kanban.board.theme.BorderStatusButton
-import woowacourse.kanban.board.theme.StatusButtonBackground
+import woowacourse.kanban.board.theme.Blue50
+import woowacourse.kanban.board.theme.Blue700
+import woowacourse.kanban.board.theme.Indigo50
+import woowacourse.kanban.board.theme.Indigo500
 
 @Composable
 fun ModalBody(
@@ -97,8 +97,8 @@ fun ModalBody(
                         modifier = Modifier.height(52.dp),
                         onClick = { state.status = id },
                         isSelected = state.status == id,
-                        selectedContainerColor = StatusButtonBackground,
-                        selectedBorderColor = BorderStatusButton,
+                        selectedContainerColor = Blue50,
+                        selectedBorderColor = Blue700,
                     ) {
                         ModalOptionStatus(
                             modifier = Modifier,
@@ -122,8 +122,8 @@ fun ModalBody(
                             state.assignee = id
                         },
                         isSelected = state.assignee == id,
-                        selectedContainerColor = AssigneeButtonBackground,
-                        selectedBorderColor = BorderAssigneeButton,
+                        selectedContainerColor = Indigo50,
+                        selectedBorderColor = Indigo500,
                     ) {
                         ModalOptionAssignee(
                             modifier = Modifier,

@@ -25,7 +25,7 @@ import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.button_cancel
 import kanbanboard.composeapp.generated.resources.button_create
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.theme.CreateButtonBackground
+import woowacourse.kanban.board.theme.Violet600
 
 @Composable
 fun ModalAction(
@@ -76,7 +76,7 @@ fun ModalAction(
             enabled = isValidTitle && isValidTag,
             onClick = onClick,
             colors = ButtonColors(
-                containerColor = CreateButtonBackground,
+                containerColor = Violet600,
                 contentColor = Color.White,
                 disabledContainerColor = Color.Gray,
                 disabledContentColor = Color.White,

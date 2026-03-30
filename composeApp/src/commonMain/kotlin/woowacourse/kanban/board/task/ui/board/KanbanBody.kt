@@ -40,15 +40,15 @@ import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.ui.card.KanbanCardItem
-import woowacourse.kanban.board.theme.DoneColumnBorder
-import woowacourse.kanban.board.theme.DoneColumnContentBackground
-import woowacourse.kanban.board.theme.DoneColumnHeaderBackground
-import woowacourse.kanban.board.theme.InProgressColumnBorder
-import woowacourse.kanban.board.theme.InProgressColumnContentBackground
-import woowacourse.kanban.board.theme.InProgressColumnHeaderBackground
-import woowacourse.kanban.board.theme.TodoColumnBorder
-import woowacourse.kanban.board.theme.TodoColumnContentBackground
-import woowacourse.kanban.board.theme.TodoColumnHeaderBackground
+import woowacourse.kanban.board.theme.Blue50
+import woowacourse.kanban.board.theme.Blue200
+import woowacourse.kanban.board.theme.Blue600
+import woowacourse.kanban.board.theme.Green50
+import woowacourse.kanban.board.theme.Green200
+import woowacourse.kanban.board.theme.Green600
+import woowacourse.kanban.board.theme.Orange600
+import woowacourse.kanban.board.theme.Yellow50
+import woowacourse.kanban.board.theme.Yellow300
 
 @Composable
 fun KanbanBody(
@@ -116,21 +116,21 @@ private fun KanbanColumn(
 ) {
     val (title, color) = when (status) {
         KanbanStatus.TO_DO -> stringResource(Res.string.status_to_do) to ColumnColors(
-            headerColor = TodoColumnHeaderBackground,
-            backgroundColor = TodoColumnContentBackground,
-            borderColor = TodoColumnBorder,
+            headerColor = Blue600,
+            backgroundColor = Blue50,
+            borderColor = Blue200,
         )
 
         KanbanStatus.IN_PROGRESS -> stringResource(Res.string.status_In_Progress) to ColumnColors(
-            headerColor = InProgressColumnHeaderBackground,
-            backgroundColor = InProgressColumnContentBackground,
-            borderColor = InProgressColumnBorder,
+            headerColor = Orange600,
+            backgroundColor = Yellow50,
+            borderColor = Yellow300,
         )
 
         KanbanStatus.DONE -> stringResource(Res.string.status_Done) to ColumnColors(
-            headerColor = DoneColumnHeaderBackground,
-            backgroundColor = DoneColumnContentBackground,
-            borderColor = DoneColumnBorder,
+            headerColor = Green600,
+            backgroundColor = Green50,
+            borderColor = Green200,
         )
     }
 

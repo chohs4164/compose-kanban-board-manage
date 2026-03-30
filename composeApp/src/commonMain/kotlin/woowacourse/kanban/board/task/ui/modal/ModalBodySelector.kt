@@ -23,10 +23,10 @@ import kanbanboard.composeapp.generated.resources.label_status
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
-import woowacourse.kanban.board.theme.AssigneeButtonBackground
-import woowacourse.kanban.board.theme.BorderAssigneeButton
-import woowacourse.kanban.board.theme.BorderStatusButton
-import woowacourse.kanban.board.theme.StatusButtonBackground
+import woowacourse.kanban.board.theme.Blue50
+import woowacourse.kanban.board.theme.Blue700
+import woowacourse.kanban.board.theme.Indigo50
+import woowacourse.kanban.board.theme.Indigo500
 
 @Composable
 fun ModalSelector(title: String, modifier: Modifier = Modifier, content: LazyGridScope.() -> Unit) {
@@ -62,8 +62,8 @@ private fun ModalStatusSelectorPreview() {
                     modifier = Modifier.height(52.dp),
                     onClick = { selectedId = id },
                     isSelected = selectedId == id,
-                    selectedContainerColor = StatusButtonBackground,
-                    selectedBorderColor = BorderStatusButton,
+                    selectedContainerColor = Blue50,
+                    selectedBorderColor = Blue700,
                 ) {
                     ModalOptionStatus(
                         modifier = Modifier,
@@ -93,8 +93,8 @@ private fun ModalAssigneeSelectorPreview() {
                         selectedId = id
                     },
                     isSelected = selectedId == id,
-                    selectedContainerColor = AssigneeButtonBackground,
-                    selectedBorderColor = BorderAssigneeButton,
+                    selectedContainerColor = Indigo50,
+                    selectedBorderColor = Indigo500,
                 ) {
                     ModalOptionAssignee(
                         modifier = Modifier,

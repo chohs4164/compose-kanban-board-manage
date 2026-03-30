@@ -35,11 +35,11 @@ import kanbanboard.composeapp.generated.resources.status_to_do
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
-import woowacourse.kanban.board.theme.AssigneeButtonBackground
-import woowacourse.kanban.board.theme.BorderAssigneeButton
-import woowacourse.kanban.board.theme.BorderButtonDefault
-import woowacourse.kanban.board.theme.BorderStatusButton
-import woowacourse.kanban.board.theme.StatusButtonBackground
+import woowacourse.kanban.board.theme.Blue50
+import woowacourse.kanban.board.theme.Blue700
+import woowacourse.kanban.board.theme.Gray200
+import woowacourse.kanban.board.theme.Indigo50
+import woowacourse.kanban.board.theme.Indigo500
 
 @Composable
 fun ModalOptionButton(
@@ -51,7 +51,7 @@ fun ModalOptionButton(
     content: @Composable () -> Unit,
 ) {
     val containerColor = if (isSelected) selectedContainerColor else Color.White
-    val borderColor = if (isSelected) selectedBorderColor else BorderButtonDefault
+    val borderColor = if (isSelected) selectedBorderColor else Gray200
     Box(
         modifier = modifier
             .width(200.dp)
@@ -85,8 +85,8 @@ private fun ModalOptionButtonPreview() {
             )
         },
         isSelected = enabled,
-        selectedContainerColor = StatusButtonBackground,
-        selectedBorderColor = BorderStatusButton,
+        selectedContainerColor = Blue50,
+        selectedBorderColor = Blue700,
     )
 }
 
@@ -103,7 +103,7 @@ private fun ModalOptionAssigneePreview() {
             )
         },
         isSelected = enabled,
-        selectedContainerColor = AssigneeButtonBackground,
-        selectedBorderColor = BorderAssigneeButton,
+        selectedContainerColor = Indigo50,
+        selectedBorderColor = Indigo500,
     )
 }

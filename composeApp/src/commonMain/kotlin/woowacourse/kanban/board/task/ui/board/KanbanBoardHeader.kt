@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import woowacourse.kanban.board.theme.CreateButtonBackground
+import woowacourse.kanban.board.theme.Violet600
 
 @Composable
 fun KanbanBoardHeader(modifier: Modifier = Modifier, title: String, doneCount: Int, totalCount: Int, onCreateClick: () -> Unit) {
@@ -42,7 +42,7 @@ fun KanbanBoardHeader(modifier: Modifier = Modifier, title: String, doneCount: I
         LinearProgressIndicator(
             progress = { progress * 0.01f },
             modifier = Modifier.fillMaxWidth().height(8.dp).clip(CircleShape),
-            color = CreateButtonBackground,
+            color = Violet600,
             trackColor = Color.LightGray,
             strokeCap = StrokeCap.Butt,
             gapSize = 0.dp,
