@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.task.ui.board
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
@@ -49,6 +50,7 @@ fun BoardCreateButton(modifier: Modifier = Modifier, onCreateClick: () -> Unit) 
 @Composable
 fun BoardCreateButtonPreview() {
     BoardCreateButton(
+        modifier = Modifier.background(Color.White),
         onCreateClick = {},
     )
 }
