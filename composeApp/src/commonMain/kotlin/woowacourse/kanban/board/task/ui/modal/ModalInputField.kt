@@ -12,8 +12,11 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import woowacourse.kanban.board.theme.color3
+import woowacourse.kanban.board.theme.color4
 
 @Composable
 fun ModalInputField(
@@ -25,41 +28,71 @@ fun ModalInputField(
     supportingText: String,
     modifier: Modifier = Modifier,
 ) {
-    val color = if (isValid) Color.Black else Color.Red
+    // 내용 색
+    val valueColor = if (isValid) Color.Black else color3
+    // hint message와 supporting message 색
+    val placeHolderColor = if (isValid) color4.copy(alpha = 0.5f) else color3
     Column(
         modifier = modifier,
     ) {
+        // 텍스트 필드 영역
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(Color.White, RoundedCornerShape(10.dp))
-                .border(width = 1.dp, color = color, shape = RoundedCornerShape(10.dp)),
+                .border(width = 1.dp, color = valueColor, shape = RoundedCornerShape(10.dp)),
             value = value,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
                 focusedContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
-                focusedTextColor = color,
-                unfocusedTextColor = color,
+                focusedTextColor = valueColor,
+                unfocusedTextColor = valueColor,
             ),
             onValueChange = onValueChange,
             placeholder = {
                 Text(
                     text = placeHolder,
-                    color = color,
+                    color = placeHolderColor,
                 )
             },
             maxLines = maxLines,
         )
 
+        // supporting message
         Text(
             modifier = Modifier.padding(
                 top = 4.dp, start = 16.dp, end = 16.dp,
             ),
             text = supportingText,
             fontSize = 12.sp,
-            color = color,
+            color = placeHolderColor,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun ModalInputFieldPreview() {
+    Column {
+        ModalInputField(
+            value = "",
+            onValueChange = {},
+            placeHolder = "태그를 쉼표로 구분하여 입력하세요 (예: 버그,긴급)",
+            maxLines = 1,
+            isValid = true,
+            supportingText = "",
+            modifier = Modifier.background(Color.White),
+        )
+        ModalInputField(
+            value = "",
+            onValueChange = {},
+            placeHolder = "이건,,,,올바르지 않은 형식입니다,,,,,,,,,",
+            maxLines = 1,
+            isValid = false,
+            supportingText = "",
+            modifier = Modifier.background(Color.White),
         )
     }
 }
