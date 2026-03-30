@@ -46,9 +46,14 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
     // 스낵바를 위한 상태 관리
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val kanbanBoard =
-        KanbanBoard(title = TaskMockData.boardTitles[selectedBoardId], cards = kanbanProject.getKanbanCardByBoardId(selectedBoardId))
 
+    val kanbanBoard by remember {
+        mutableStateOf(
+            KanbanBoard(
+                title = TaskMockData.boardTitles[selectedBoardId], cards = kanbanProject.getKanbanCardByBoardId(selectedBoardId),
+            ),
+        )
+    }
     Row(
         modifier = modifier,
     ) {
