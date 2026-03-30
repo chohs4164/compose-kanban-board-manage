@@ -72,42 +72,6 @@ fun ModalOptionButton(
     }
 }
 
-@Composable
-fun ModalOptionStatus(kanbanStatus: KanbanStatus, modifier: Modifier = Modifier) {
-    val status = when (kanbanStatus) {
-        KanbanStatus.TO_DO -> stringResource(Res.string.status_to_do)
-        KanbanStatus.IN_PROGRESS -> stringResource(Res.string.status_In_Progress)
-        KanbanStatus.DONE -> stringResource(Res.string.status_Done)
-    }
-    Text(
-        modifier = modifier,
-        text = status,
-    )
-}
-
-@Composable
-fun ModalOptionAssignee(name: String, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier.fillMaxWidth()
-            .padding(12.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            modifier = Modifier.size(24.dp),
-            imageVector = Icons.Default.AccountCircle,
-            contentDescription = "담당자 아이콘",
-            tint = Color.Gray,
-        )
-
-        Text(
-            text = name,
-            fontSize = 14.sp,
-            overflow = TextOverflow.Ellipsis,
-        )
-    }
-}
-
 @Preview
 @Composable
 private fun ModalOptionButtonPreview() {
