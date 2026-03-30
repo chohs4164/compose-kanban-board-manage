@@ -11,39 +11,56 @@ import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskValidator
 
 class ModalCreateFormState {
+    // 태스크 제목
     var title by mutableStateOf("")
+
+    // 태스크 설명
     var content by mutableStateOf("")
+
+    // 태스크 태그
     var tag by mutableStateOf("")
+
+    // 태스크 상태 with index
     var status by mutableIntStateOf(0)
+
+    // 태스크 담당자 with index
     var assignee by mutableIntStateOf(0)
 
-    var validTitle by mutableStateOf(TaskErrorType.DEFAULT)
+    // 태스크 제목 유효성 검사를 통과한 제목
+    var validTitle by mutableStateOf(TaskErrorType.TITLE_DEFAULT)
 
+    // 태스크 제목이 유효한지 여부
     val isValidTitle by derivedStateOf {
-        validTitle == TaskErrorType.DEFAULT
+        validTitle == TaskErrorType.TITLE_DEFAULT
     }
 
+    // 태스크 태그 유효성 검사를 통과한 태그
     var validTag by mutableStateOf(TaskErrorType.TAG_DEFAULT)
 
+    // 태스크 태그가 유효한지 여부
     val isValidTag by derivedStateOf {
         validTag == TaskErrorType.TAG_DEFAULT
     }
 
+    // 제목을 다시 입력하기 시작할 때, 이전 검증 에러 표시를 지우기 위함
     fun resetTitleError() {
-        validTitle = TaskErrorType.DEFAULT
+        validTitle = TaskErrorType.TITLE_DEFAULT
     }
 
+    // 태그를 다시 입력하기 시작할 때, 이전 검증 에러 표시를 지우기 위함
     fun resetTagError() {
         validTag = TaskErrorType.TAG_DEFAULT
     }
 
+    // 태스크 제목과 태그가 유효성 검사를 통과했다는 상태를 알리기 위함
     fun validate(): Boolean {
         validTitle = TaskValidator.validateTitle(title)
         validTag = TaskValidator.validateTags(tag)
-        return validTitle == TaskErrorType.DEFAULT && validTag == TaskErrorType.TAG_DEFAULT
+        return validTitle == TaskErrorType.TITLE_DEFAULT && validTag == TaskErrorType.TAG_DEFAULT
     }
 
-    fun toForm(assignees: List<String>): KanbanCardForm {
+    // 도메인에서 쓸 제출 데이터
+    fun toKanbanCardForm(assignees: List<String>): KanbanCardForm {
         val tags = if (tag.isEmpty()) emptyList() else tag.split(",").map { it.trim() }
         return KanbanCardForm(
             title = title,
@@ -53,5 +70,6 @@ class ModalCreateFormState {
         )
     }
 
-    fun toStatus() = KanbanStatus.entries[status]
+    // 도메인에 상태를 넘거주기 위함
+    fun toKanbanCardStatus() = KanbanStatus.entries[status]
 }
