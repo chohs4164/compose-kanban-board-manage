@@ -52,6 +52,7 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
     Row(
         modifier = modifier,
     ) {
+
         KanbanProjectSideBar(
             modifier = Modifier.fillMaxHeight(),
             title = kanbanProject.projectTitle,
@@ -64,8 +65,11 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
         KanbanBoardScreen(
             boardId = selectedBoardId,
             kanbanBoard = kanbanBoard,
-            onAddCard = { boardId, form, status ->
-                kanbanProject = kanbanProject.addCard(boardId, form, status)
+            onAddCard = { form, status ->
+                val newId = (kanbanProject.kanbanCards.maxOfOrNull { it.id } ?: 0) + 1
+                val newCard = KanbanCard.create(newId, selectedBoardId, form, status)
+
+                kanbanProject = kanbanProject.addCard(newCard)
             },
             getIsDropTarget = { status ->
                 currentDragPosition?.let { columnBounds[status]?.contains(it) } ?: false

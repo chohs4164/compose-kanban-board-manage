@@ -47,7 +47,7 @@ fun KanbanBoardScreen(
     modifier: Modifier = Modifier,
     boardId: Int, // 보드의 Id
     kanbanBoard: KanbanBoard, // KanbanProject 에서 띄울 KanbanBoard 하나
-    onAddCard: (Int, KanbanCardForm, KanbanStatus) -> Unit, // 카드 추가(boardId, 보드 폼 내용, 칸반카드 상태 받아옴)
+    onAddCard: (KanbanCardForm, KanbanStatus) -> Unit, // 카드 추가(boardId, 보드 폼 내용, 칸반카드 상태 받아옴)
     getIsDropTarget: (KanbanStatus) -> Boolean = { false }, // 칸반 카드가 놓아지는 위치 파악
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> }, // 칸반 카드 상태와 위치 변경 파악
     onTaskDragStart: (KanbanCard) -> Unit = {}, // task 드래그 시작
@@ -69,7 +69,7 @@ fun KanbanBoardScreen(
             assignee = TaskMockData.assignees,
             onDismissRequest = { isShowModal = false },
             onCreate = { form, status ->
-                onAddCard(boardId, form, status)
+                onAddCard(form, status)
                 isShowModal = false
                 scope.launch {
                     snackbarHostState.showSnackbar(
@@ -82,44 +82,44 @@ fun KanbanBoardScreen(
         )
     }
 
-        // 칸반 보드
-        Scaffold(
-            modifier = modifier,
-            containerColor = Color.White,
-            snackbarHost = {
-                SnackbarHost(hostState = snackbarHostState) { snackbarData ->
-                    SnackBarCard(
-                        modifier = Modifier,
-                        message = snackbarData.visuals.message,
-                        onDismiss = { snackbarData.dismiss() },
-                    )
-                }
-            },
-            topBar = {
-                KanbanBoardHeader(
-                    modifier = Modifier.padding(
-                        vertical = 16.dp,
-                        horizontal = 24.dp,
-                    ),
-                    title = kanbanBoard.title,
-                    doneCount = kanbanBoard.doneCount,
-                    totalCount = kanbanBoard.totalCount,
-                    onCreateClick = { isShowModal = true },
+    // 칸반 보드
+    Scaffold(
+        modifier = modifier,
+        containerColor = Color.White,
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState) { snackbarData ->
+                SnackBarCard(
+                    modifier = Modifier,
+                    message = snackbarData.visuals.message,
+                    onDismiss = { snackbarData.dismiss() },
                 )
-            },
-        ) { paddingValues ->
-            KanbanBody(
-                todoCards = todoCards,
-                inProgressCards = inProgressCards,
-                doneCards = doneCards,
-                modifier = Modifier
-                    .padding(paddingValues)
-                    .fillMaxWidth()
-                    .background(Gray50)
-                    .padding(24.dp),
-                getIsDropTarget = getIsDropTarget,
-                onBoundsChanged = onBoundsChanged,
-                onTaskDragStart = onTaskDragStart,
+            }
+        },
+        topBar = {
+            KanbanBoardHeader(
+                modifier = Modifier.padding(
+                    vertical = 16.dp,
+                    horizontal = 24.dp,
+                ),
+                title = kanbanBoard.title,
+                doneCount = kanbanBoard.doneCount,
+                totalCount = kanbanBoard.totalCount,
+                onCreateClick = { isShowModal = true },
+            )
+        },
+    ) { paddingValues ->
+        KanbanBody(
+            todoCards = todoCards,
+            inProgressCards = inProgressCards,
+            doneCards = doneCards,
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxWidth()
+                .background(Gray50)
+                .padding(24.dp),
+            getIsDropTarget = getIsDropTarget,
+            onBoundsChanged = onBoundsChanged,
+            onTaskDragStart = onTaskDragStart,
             onTaskDragChange = onTaskDragChange,
             onTaskDragEnd = onTaskDragEnd,
             onTaskDragCancel = onTaskDragCancel,
@@ -136,7 +136,7 @@ private fun KanbanBoardScreenPreview() {
     val scope = rememberCoroutineScope()
     KanbanBoardScreen(
         boardId = 0,
-        onAddCard = { _, _, _ -> },
+        onAddCard = { _, _ -> },
         kanbanBoard = KanbanBoard(
             title = "compose",
             cards = listOf(),
