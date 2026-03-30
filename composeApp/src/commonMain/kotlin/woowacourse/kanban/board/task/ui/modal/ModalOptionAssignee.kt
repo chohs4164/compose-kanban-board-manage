@@ -1,5 +1,6 @@
 package woowacourse.kanban.board.task.ui.modal
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,11 +15,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ModalOptionAssignee(name: String, modifier: Modifier = Modifier) {
+fun ModalOptionAssignee(modifier: Modifier = Modifier, name: String) {
     Row(
         modifier = modifier.fillMaxWidth()
             .padding(12.dp),
@@ -38,4 +40,13 @@ fun ModalOptionAssignee(name: String, modifier: Modifier = Modifier) {
             overflow = TextOverflow.Ellipsis,
         )
     }
+}
+
+@Preview
+@Composable
+private fun ModalOptionAssigneePreview() {
+    ModalOptionAssignee(
+        modifier = Modifier.background(Color.White),
+        name = "다이노",
+    )
 }
