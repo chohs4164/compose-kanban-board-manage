@@ -53,14 +53,14 @@ fun ModalBody(
                 state.title = it
                 state.resetTitleError()
             },
-            isValid = state.validTitle == TaskErrorType.DEFAULT,
+            isValid = state.isValidTitle,
         )
 
         ModalBodyInput(
             title = stringResource(Res.string.label_description),
             placeholder = stringResource(Res.string.place_holder_input_description),
             maxLines = 5,
-            validType = TaskErrorType.DEFAULT,
+            validType = TaskErrorType.TITLE_DEFAULT,
             state = state.content,
             onValueChange = {
                 state.content = it
@@ -133,7 +133,7 @@ fun ModalBody(
             onDismissRequest = onDismissRequest,
             onClick = {
                 if (state.validate()) {
-                    onCreate(state.toForm(assignee), state.toStatus())
+                    onCreate(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
                 }
             },
         )
