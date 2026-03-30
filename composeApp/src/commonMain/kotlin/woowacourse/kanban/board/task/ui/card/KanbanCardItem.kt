@@ -20,6 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -115,38 +117,22 @@ private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<Kanb
         ),
     )
 }
-//
-// @Preview
-// @Composable
-// private fun KanbanCardPreview(@PreviewParameter(KanbanCardPreviewParameterProvider::class) kanbanCardInfo: KanbanCardInfo) {
-//    Box(modifier = Modifier.padding(12.dp)) {
-//        KanbanCardItem(
-//            kanbanCardForm = KanbanCardForm(
-//                title = kanbanCardInfo.title,
-//                crewName = kanbanCardInfo.crewName,
-//                tags = kanbanCardInfo.tags,
-//                content = kanbanCardInfo.content,
-//            ),
-//        )
-//    }
-// }
-//
-// @Preview
-// @Composable
-// private fun KanbanCardMaxPreview() {
-//    Box(modifier = Modifier.padding(12.dp)) {
-//        KanbanCardItem(
-//            kanbanCardForm = KanbanCardForm(
-//                title = "너무너무 긴 제목은 한 줄까지만 노출합니다. 그렇습니다. 감사합니다.",
-//                crewName = "바드바드바드바드바드바드바드바드바드바드바드바드바드바드",
-//                tags = listOf(
-//                    "컴포넌트",
-//                    "성능",
-//                    "긴 태그",
-//                    "최대로",
-//                ),
-//                content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.".repeat(3),
-//            ),
-//        )
-//    }
-// }
+
+@Preview
+@Composable
+private fun KanbanCardItemPreview(
+    @PreviewParameter(KanbanCardPreviewParameterProvider::class) card: KanbanCard
+) {
+    val kanbanCard = KanbanCard(
+        id = 0,
+        boardId = 0,
+        title = card.title,
+        assigneeName = card.assigneeName,
+        status = card.status,
+        content = card.content,
+        tags = card.tags
+    )
+    KanbanCardItem(
+        kanbanCard = kanbanCard
+    )
+}
