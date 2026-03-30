@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
@@ -40,25 +41,25 @@ import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.modal.ModalCreateForm
 import woowacourse.kanban.board.theme.BoardBackground
-import woowacourse.kanban.board.theme.SnackBarBackground
 
 @Composable
 fun KanbanBoardScreen(
-    boardId: Int,
-    kanbanBoard: KanbanBoard,
-    onAddCard: (Int, KanbanCardForm, KanbanStatus) -> Unit,
     modifier: Modifier = Modifier,
-    getIsDropTarget: (KanbanStatus) -> Boolean = { false },
-    onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
-    onTaskDragStart: (KanbanCard) -> Unit = {},
-    onTaskDragChange: (Offset) -> Unit = {},
-    onTaskDragEnd: () -> Unit = {},
-    onTaskDragCancel: () -> Unit = {},
+    boardId: Int, // 보드의 Id
+    kanbanBoard: KanbanBoard, // KanbanProject 에서 띄울 KanbanBoard 하나
+    onAddCard: (Int, KanbanCardForm, KanbanStatus) -> Unit, // 카드 추가(boardId, 보드 폼 내용, 칸반카드 상태 받아옴)
+    getIsDropTarget: (KanbanStatus) -> Boolean = { false }, // 칸반 카드가 놓아지는 위치 파악
+    onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> }, // 칸반 카드 상태와 위치 변경 파악
+    onTaskDragStart: (KanbanCard) -> Unit = {}, // task 드래그 시작
+    onTaskDragChange: (Offset) -> Unit = {}, // task의 위치가 바뀌었는지 파악
+    onTaskDragEnd: () -> Unit = {}, // task의 최종 위치 파악
+    onTaskDragCancel: () -> Unit = {}, // task 드래그 취소
+    snackbarHostState: SnackbarHostState,
+    scope: CoroutineScope,
 ) {
+    // 모달 창을 화면에 띄울 건지
     var isShowModal by remember { mutableStateOf(false) }
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
-
+    // 상태에 따른 KanbanCard 분리를 위한 관리
     val todoCards = kanbanBoard.getCardByStatus(KanbanStatus.TO_DO)
     val inProgressCards = kanbanBoard.getCardByStatus(KanbanStatus.IN_PROGRESS)
     val doneCards = kanbanBoard.getCardByStatus(KanbanStatus.DONE)
@@ -81,78 +82,47 @@ fun KanbanBoardScreen(
         )
     }
 
-    Scaffold(
-        modifier = modifier,
-        containerColor = Color.White,
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) { snackbarData ->
-                SnackBarCard(
-                    modifier = Modifier,
-                    message = snackbarData.visuals.message,
-                    onDismiss = { snackbarData.dismiss() },
+        // 칸반 보드
+        Scaffold(
+            modifier = modifier,
+            containerColor = Color.White,
+            snackbarHost = {
+                SnackbarHost(hostState = snackbarHostState) { snackbarData ->
+                    SnackBarCard(
+                        modifier = Modifier,
+                        message = snackbarData.visuals.message,
+                        onDismiss = { snackbarData.dismiss() },
+                    )
+                }
+            },
+            topBar = {
+                KanbanBoardHeader(
+                    modifier = Modifier.padding(
+                        vertical = 16.dp,
+                        horizontal = 24.dp,
+                    ),
+                    title = kanbanBoard.title,
+                    doneCount = kanbanBoard.doneCount,
+                    totalCount = kanbanBoard.totalCount,
+                    onCreateClick = { isShowModal = true },
                 )
-            }
-        },
-        topBar = {
-            KanbanBoardHeader(
-                modifier = Modifier.padding(
-                    vertical = 16.dp,
-                    horizontal = 24.dp,
-                ),
-                title = kanbanBoard.title,
-                doneCount = kanbanBoard.doneCount,
-                totalCount = kanbanBoard.totalCount,
-                onCreateClick = { isShowModal = true },
-            )
-        },
-    ) { paddingValues ->
-        KanbanBody(
-            todoCards = todoCards,
-            inProgressCards = inProgressCards,
-            doneCards = doneCards,
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxWidth()
-                .background(BoardBackground)
-                .padding(24.dp),
-            getIsDropTarget = getIsDropTarget,
-            onBoundsChanged = onBoundsChanged,
-            onTaskDragStart = onTaskDragStart,
+            },
+        ) { paddingValues ->
+            KanbanBody(
+                todoCards = todoCards,
+                inProgressCards = inProgressCards,
+                doneCards = doneCards,
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxWidth()
+                    .background(BoardBackground)
+                    .padding(24.dp),
+                getIsDropTarget = getIsDropTarget,
+                onBoundsChanged = onBoundsChanged,
+                onTaskDragStart = onTaskDragStart,
             onTaskDragChange = onTaskDragChange,
             onTaskDragEnd = onTaskDragEnd,
             onTaskDragCancel = onTaskDragCancel,
-        )
-    }
-}
-
-@Composable
-private fun SnackBarCard(message: String, onDismiss: () -> Unit, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .width(344.dp)
-            .height(48.dp)
-            .background(
-                color = SnackBarBackground,
-                shape = RoundedCornerShape(4.dp),
-            )
-            .padding(
-                vertical = 14.dp,
-                horizontal = 16.dp,
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = message,
-            fontSize = 14.sp,
-            color = Color.White,
-        )
-
-        Icon(
-            imageVector = Icons.Default.Close,
-            modifier = modifier.size(24.dp).clickable(onClick = { onDismiss() }),
-            contentDescription = "스낵바 닫기",
-            tint = Color.White,
         )
     }
 }
@@ -163,6 +133,7 @@ private fun SnackBarCard(message: String, onDismiss: () -> Unit, modifier: Modif
 )
 @Composable
 private fun KanbanBoardScreenPreview() {
+    val scope = rememberCoroutineScope()
     KanbanBoardScreen(
         boardId = 0,
         onAddCard = { _, _, _ -> },
@@ -170,5 +141,7 @@ private fun KanbanBoardScreenPreview() {
             title = "compose",
             cards = listOf(),
         ),
+        snackbarHostState = remember { SnackbarHostState() },
+        scope = scope,
     )
 }
