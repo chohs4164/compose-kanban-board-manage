@@ -134,6 +134,7 @@ fun ModalBody(
             },
         )
 
+        // 취소 / 생성 버튼
         ModalAction(
             isValidTitle = state.isValidTitle,
             isValidTag = state.isValidTag,
