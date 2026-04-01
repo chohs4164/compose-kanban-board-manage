@@ -1,13 +1,18 @@
 package woowacourse.kanban.board.task.ui.modal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -29,28 +34,27 @@ import woowacourse.kanban.board.theme.Indigo50
 import woowacourse.kanban.board.theme.Indigo500
 
 @Composable
-fun ModalSelector(title: String, modifier: Modifier = Modifier, content: LazyGridScope.() -> Unit) {
+fun ModalSelector(title: String, modifier: Modifier = Modifier, content: LazyListScope.() -> Unit) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         ModalInputTitle(title)
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             content()
         }
     }
 }
 
-@Preview
+@Preview(
+    widthDp = 1000,
+)
 @Composable
 private fun ModalStatusSelectorPreview() {
     var selectedId by remember { mutableIntStateOf(0) }
-
     ModalSelector(
         modifier = Modifier.background(Color.White),
         title = stringResource(Res.string.label_status),
@@ -59,7 +63,8 @@ private fun ModalStatusSelectorPreview() {
                 KanbanStatus.entries,
             ) { id, status ->
                 ModalOptionButton(
-                    modifier = Modifier.height(52.dp),
+                    modifier = Modifier
+                        .height(52.dp),
                     onClick = { selectedId = id },
                     isSelected = selectedId == id,
                     selectedContainerColor = Blue50,
@@ -75,7 +80,9 @@ private fun ModalStatusSelectorPreview() {
     )
 }
 
-@Preview
+@Preview(
+    widthDp = 1000
+)
 @Composable
 private fun ModalAssigneeSelectorPreview() {
     var selectedId by remember { mutableIntStateOf(0) }
