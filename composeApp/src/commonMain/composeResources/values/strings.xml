@@ -20,8 +20,9 @@
 
     <string name="progress_text">완료율: %1$d% (%2$d/%3$d)</string>
 
-    <string name="status_to_do">To Do</string>
+    <string name="status_To_Do">To Do</string>
     <string name="status_In_Progress">In Progress</string>
+    <string name="status_review">Review</string>
     <string name="status_Done">Done</string>
 
     <string name="button_task_create">새 태스크 생성</string>

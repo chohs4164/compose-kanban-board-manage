@@ -68,7 +68,6 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
             },
         )
         KanbanBoardScreen(
-            boardId = selectedBoardId,
             kanbanBoard = kanbanBoard,
             onAddCard = { form, status ->
                 val newId = (kanbanProject.kanbanCards.maxOfOrNull { it.id } ?: 0) + 1

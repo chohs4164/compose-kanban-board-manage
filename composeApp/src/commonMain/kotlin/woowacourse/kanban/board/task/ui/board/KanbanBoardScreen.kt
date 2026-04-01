@@ -34,7 +34,6 @@ import woowacourse.kanban.board.theme.Gray50
 @Composable
 fun KanbanBoardScreen(
     modifier: Modifier = Modifier,
-    boardId: Int, // 보드의 Id
     kanbanBoard: KanbanBoard, // KanbanProject 에서 띄울 KanbanBoard 하나
     onAddCard: (KanbanCardForm, KanbanStatus) -> Unit, // 카드 추가(boardId, 보드 폼 내용, 칸반카드 상태 받아옴)
     getIsDropTarget: (KanbanStatus) -> Boolean = { false }, // 칸반 카드가 놓아지는 위치 파악
@@ -51,6 +50,7 @@ fun KanbanBoardScreen(
     // 상태에 따른 KanbanCard 분리를 위한 관리
     val todoCards = kanbanBoard.getCardByStatus(KanbanStatus.TO_DO)
     val inProgressCards = kanbanBoard.getCardByStatus(KanbanStatus.IN_PROGRESS)
+    val reviewCards = kanbanBoard.getCardByStatus(KanbanStatus.REVIEW)
     val doneCards = kanbanBoard.getCardByStatus(KanbanStatus.DONE)
 
     if (isShowModal) {
@@ -100,6 +100,7 @@ fun KanbanBoardScreen(
         KanbanBody(
             todoCards = todoCards,
             inProgressCards = inProgressCards,
+            reviewCards = reviewCards,
             doneCards = doneCards,
             modifier = Modifier
                 .padding(paddingValues)
@@ -117,14 +118,13 @@ fun KanbanBoardScreen(
 }
 
 @Preview(
-    widthDp = 1300,
+    widthDp = 1500,
     heightDp = 900,
 )
 @Composable
 private fun KanbanBoardScreenPreview() {
     val scope = rememberCoroutineScope()
     KanbanBoardScreen(
-        boardId = 0,
         onAddCard = { _, _ -> },
         kanbanBoard = KanbanBoard(
             title = "compose",
