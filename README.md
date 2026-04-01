@@ -1,40 +1,78 @@
-This is a Kotlin Multiplatform project targeting Android, Desktop (JVM).
+# 1단계 - 칸반 보드 관리(프로젝트)
 
-* [/composeApp](./composeApp/src) is for code that will be shared across your Compose Multiplatform applications.
-  It contains several subfolders:
-  - [commonMain](./composeApp/src/commonMain/kotlin) is for code that’s common for all targets.
-  - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
-    For example, if you want to use Apple’s CoreCrypto for the iOS part of your Kotlin app,
-    the [iosMain](./composeApp/src/iosMain/kotlin) folder would be the right place for such calls.
-    Similarly, if you want to edit the Desktop (JVM) specific part, the [jvmMain](./composeApp/src/jvmMain/kotlin)
-    folder is the appropriate location.
+## 기능 요구 사항
 
-### Build and Run Android Application
+[디자인 시안](https://www.figma.com/design/3aBG3UfkTwmHM8BnPyahtT/8%EA%B8%B0-Android-%EB%A0%88%EB%B2%A81-%EB%AF%B8%EC%85%98-%EB%94%94%EC%9E%90%EC%9D%B8?node-id=23136-23&p=f&t=BkDoe4MhIv9A0fPl-0)
+을 참고해 칸반 보드 프로젝트를 구현한다.  
+드래그 앤 드롭으로 카드 상태를 변경할 수 있어야 한다.
 
-To build and run the development version of the Android app, use the run configuration from the run widget
-in your IDE’s toolbar or build it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:assembleDebug
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:assembleDebug
-  ```
+## 프로그래밍 요구 사항
 
-### Build and Run Desktop (JVM) Application
+- 여러 번 그려지지 않아도 되는 뷰는 매번 리컴포지션되지 않아야 한다.
+- 적절한 테스트 방법을 활용해 기능 요구 사항을 테스트한다.
+- 모든 요구 사항이 테스트 가능하지는 않으므로 스스로 판단해 구분한다.
+- 프로젝트 생성을 위한 뷰는 없으며, 가짜 데이터와 테스트 더블을 활용한다.
 
-To build and run the development version of the desktop app, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :composeApp:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :composeApp:run
-  ```
+## 구현할 기능 및 세부 명세
 
----
+- [x] 여러 칸반보드를 저장할 수 있는 사이드바 구현
+- [x] Drag & Drop 기능 구현
+- [x] 태스크 이동 시 `"태스크가 이동되었습니다."` 스낵바 구현
 
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### 비즈니스 로직
+
+- [x] KanbanCard 상태를 수정할 수 있다.
+- [x] KanbanProject는 여러 KanbanBoard를 가진다.
+
+### UI 테스트
+
+- [x] 사이드바에서 선택된 칸반보드에 따라 우측 칸반보드 현황이 변경된다.
+- [x] 드래그 앤 드롭으로 KanbanCard 상태가 변경된다.
+- [x] 드래그 앤 드롭으로 KanbanCard 상태가 변경되면 `"태스크가 이동되었습니다."` 스낵바가 표시된다.
+
+### 사이드바
+
+- [x] 요구사항: 여러 개의 칸반보드를 표시하고, 버튼으로 다른 칸반보드 현황을 볼 수 있다.
+
+#### UI 명세
+
+| 구분  | 항목               | 값                   |
+|-----|------------------|---------------------|
+| 공통  | 배경색              | `#FFFFFF`           |
+| 공통  | 테두리              | `1px solid #E5E7EB` |
+| 상단부 | 패딩               | `24px`              |
+| 상단부 | 사이드바 타이틀 텍스트 크기  | `18px`              |
+| 상단부 | 부제목 텍스트 크기       | `14px`              |
+| 상단부 | 부제목 텍스트 색상       | `#6A7282`           |
+| 하단부 | 패딩               | `16px`              |
+| 하단부 | 버튼 텍스트 크기        | `16px`              |
+| 하단부 | 버튼 배경색           | `#EEF2FF`           |
+| 하단부 | 버튼 텍스트 색상(선택 상태) | `#432DD7`           |
+
+## 이전 단계 구현 내용 요약
+
+### 레벨1 - 칸반 보드 태스크(카드)
+- 칸반 보드용 태스크 카드 UI를 구현했다.
+- 카드 제목, 본문, 태그, 담당자 정보를 표시할 수 있도록 구성했다.
+- 제목과 담당자 이름은 말줄임 처리를 적용했고, 본문은 최대 2줄까지 표시되도록 구현했다.
+- 태그는 최대 5개, 각 태그 이름은 최대 5글자까지만 노출되도록 제한했다.
+- 본문이나 태그가 없는 경우에는 해당 영역을 렌더링하지 않도록 처리했다.
+
+### 레벨2 - 칸반 보드 태스크(리팩터링)
+- 비즈니스 로직과 UI 로직을 분리하는 방향으로 리팩터링했다.
+- 제목(`title`)과 담당자 이름(`crewName`)에 대한 유효성 검증을 적용했다.
+- 잘못된 입력값에 대해 예외가 발생하도록 단위 테스트를 작성했다.
+- 예외 상황에서도 안정적으로 동작할 수 있도록 Fallback 처리를 고려했다.
+
+### 1단계 - 칸반 보드 생성(태스크 생성 모달)
+- 새 태스크 생성 모달을 구현했다.
+- 제목, 상태, 담당자를 필수 입력값으로 두고 설명, 태그를 선택 입력값으로 구성했다.
+- 상태와 담당자는 기본값이 선택된 단일 선택 구조로 구현했다.
+- 필수 입력 누락 또는 유효성 검증 실패 시 생성 버튼이 비활성화되도록 처리했다.
+- 에러 문구를 통해 입력 오류를 사용자에게 안내할 수 있도록 구현했다.
+
+### 2단계 - 칸반 보드 생성(보드)
+- 칸반 보드 화면을 구현하고, 새 태스크 생성 모달과 연결했다.
+- 태스크를 상태별(To-Do, In Progress, Done)로 분류해 컬럼에 배치했다.
+- 전체 태스크 수와 Done 상태 태스크 수를 기반으로 완료율을 계산해 표시했다.
+- 태스크 생성 시 새로운 `KanbanCard`를 리스트에 추가할 수 있도록 구현했다.

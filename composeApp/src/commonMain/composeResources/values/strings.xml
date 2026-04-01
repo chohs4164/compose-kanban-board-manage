@@ -1,0 +1,30 @@
+<resources>
+    <string name="modal_title_new_task">새 태스크 생성</string>
+    <string name="board_title">Compose Desktop 칸반 보드 </string>
+    <string name="project_title">프로젝트</string>
+
+    <string name="label_title">제목 *</string>
+    <string name="label_description">설명</string>
+    <string name="label_tags">태그</string>
+    <string name="label_status">상태 *</string>
+    <string name="label_assignee">담당자 *</string>
+
+    <string name="place_holder_input_title">태스크 제목을 입력하세요</string>
+    <string name="place_holder_input_description">태스크에 대한 자세한 설명을 입력하세요</string>
+    <string name="place_holder_input_tags">태그를 쉼표로 구분하여 입력하세요 (예: 버그, 긴급)</string>
+
+    <string name="supporting_text_tags">5자 이내의 태그를 최대 5개까지 등록할 수 있습니다.</string>
+    <string name="error_empty_title">제목을 입력해 주세요.</string>
+    <string name="error_invalid_tag_format">태그 형식이 올바르지 않습니다.</string>
+    <string name="error_max_tags_format">태그는 5자 이내로 5개까지만 등록할 수 있습니다.</string>
+
+    <string name="progress_text">완료율: %1$d% (%2$d/%3$d)</string>
+
+    <string name="status_to_do">To Do</string>
+    <string name="status_In_Progress">In Progress</string>
+    <string name="status_Done">Done</string>
+
+    <string name="button_task_create">새 태스크 생성</string>
+    <string name="button_create">생성</string>
+    <string name="button_cancel">취소</string>
+</resources>
