@@ -35,7 +35,8 @@ import androidx.compose.ui.unit.sp
 import kanbanboard.composeapp.generated.resources.Res
 import kanbanboard.composeapp.generated.resources.status_Done
 import kanbanboard.composeapp.generated.resources.status_In_Progress
-import kanbanboard.composeapp.generated.resources.status_to_do
+import kanbanboard.composeapp.generated.resources.status_To_Do
+import kanbanboard.composeapp.generated.resources.status_review
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
@@ -47,6 +48,9 @@ import woowacourse.kanban.board.theme.Green200
 import woowacourse.kanban.board.theme.Green50
 import woowacourse.kanban.board.theme.Green600
 import woowacourse.kanban.board.theme.Orange600
+import woowacourse.kanban.board.theme.Violet100
+import woowacourse.kanban.board.theme.Violet200
+import woowacourse.kanban.board.theme.Violet500
 import woowacourse.kanban.board.theme.Yellow300
 import woowacourse.kanban.board.theme.Yellow50
 
@@ -55,6 +59,7 @@ fun KanbanBody(
     modifier: Modifier = Modifier,
     todoCards: List<KanbanCard> = emptyList(),
     inProgressCards: List<KanbanCard> = emptyList(),
+    reviewCards: List<KanbanCard> = emptyList(),
     doneCards: List<KanbanCard> = emptyList(),
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
@@ -80,6 +85,16 @@ fun KanbanBody(
         KanbanColumn(
             status = KanbanStatus.IN_PROGRESS,
             cards = inProgressCards,
+            getIsDropTarget = getIsDropTarget,
+            onBoundsChanged = onBoundsChanged,
+            onTaskDragStart = onTaskDragStart,
+            onTaskDragChange = onTaskDragChange,
+            onTaskDragEnd = onTaskDragEnd,
+            onTaskDragCancel = onTaskDragCancel,
+        )
+        KanbanColumn(
+            status = KanbanStatus.REVIEW,
+            cards = reviewCards,
             getIsDropTarget = getIsDropTarget,
             onBoundsChanged = onBoundsChanged,
             onTaskDragStart = onTaskDragStart,
@@ -115,7 +130,7 @@ private fun KanbanColumn(
     onTaskDragCancel: () -> Unit = {},
 ) {
     val (title, color) = when (status) {
-        KanbanStatus.TO_DO -> stringResource(Res.string.status_to_do) to ColumnColors(
+        KanbanStatus.TO_DO -> stringResource(Res.string.status_To_Do) to ColumnColors(
             headerColor = Blue600,
             backgroundColor = Blue50,
             borderColor = Blue200,
@@ -125,6 +140,12 @@ private fun KanbanColumn(
             headerColor = Orange600,
             backgroundColor = Yellow50,
             borderColor = Yellow300,
+        )
+
+        KanbanStatus.REVIEW -> stringResource(Res.string.status_review) to ColumnColors(
+            headerColor = Violet500,
+            backgroundColor = Violet100,
+            borderColor = Violet200,
         )
 
         KanbanStatus.DONE -> stringResource(Res.string.status_Done) to ColumnColors(
