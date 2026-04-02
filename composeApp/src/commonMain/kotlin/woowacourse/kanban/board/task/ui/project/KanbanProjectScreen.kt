@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
+import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanProject
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
@@ -47,17 +48,14 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
-    val kanbanBoard by remember {
-        mutableStateOf(
-            KanbanBoard(
-                title = TaskMockData.boardTitles[selectedBoardId], cards = kanbanProject.getKanbanCardByBoardId(selectedBoardId),
-            ),
-        )
-    }
+    val kanbanBoard = KanbanBoard(
+        title = TaskMockData.boardTitles[selectedBoardId],
+        cards = kanbanProject.getKanbanCardByBoardId(selectedBoardId),
+    )
+
     Row(
         modifier = modifier,
     ) {
-
         KanbanProjectSideBar(
             modifier = Modifier.fillMaxHeight(),
             title = kanbanProject.projectTitle,
@@ -74,6 +72,19 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
                 val newCard = KanbanCard.create(newId, selectedBoardId, form, status)
 
                 kanbanProject = kanbanProject.addCard(newCard)
+            },
+            onEditCard = { id, form, status ->
+                kanbanProject = kanbanProject.updateCard(
+                    id = id,
+                    form = form,
+                    status = status,
+                )
+            },
+            onDeleteCard = { id ->
+                kanbanProject = kanbanProject.deleteCard(
+                    id = id,
+                )
+
             },
             getIsDropTarget = { status ->
                 currentDragPosition?.let { columnBounds[status]?.contains(it) } ?: false

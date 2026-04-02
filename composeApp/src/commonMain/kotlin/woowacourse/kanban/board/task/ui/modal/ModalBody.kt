@@ -13,8 +13,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.label_assignee
 import kanbanboard.composeapp.generated.resources.label_description
 import kanbanboard.composeapp.generated.resources.label_status
 import kanbanboard.composeapp.generated.resources.label_tags
@@ -27,6 +30,7 @@ import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskMockData
+import woowacourse.kanban.board.task.ui.board.TaskModalMode
 import woowacourse.kanban.board.theme.Blue50
 import woowacourse.kanban.board.theme.Blue700
 import woowacourse.kanban.board.theme.Indigo50
@@ -35,10 +39,13 @@ import woowacourse.kanban.board.theme.Indigo500
 @Composable
 fun ModalBody(
     modifier: Modifier = Modifier,
-    state: ModalCreateFormState,
+    modalMode: TaskModalMode,
     assignee: List<String>,
+    state: ModalCreateFormState,
     onDismissRequest: () -> Unit,
     onCreate: (KanbanCardForm, KanbanStatus) -> Unit,
+    onEdit: (KanbanCardForm, KanbanStatus) -> Unit,
+    onDelete: () -> Unit,
 ) {
     Column(
         modifier = modifier
@@ -112,7 +119,7 @@ fun ModalBody(
 
         // 담당자
         ModalSelector(
-            title = stringResource(Res.string.label_status),
+            title = stringResource(Res.string.label_assignee),
             content = {
                 itemsIndexed(
                     assignee,
@@ -137,30 +144,50 @@ fun ModalBody(
 
         // 취소 / 생성 버튼
         ModalAction(
+            modalMode = modalMode,
             isValidTitle = state.isValidTitle,
             isValidTag = state.isValidTag,
             onDismissRequest = onDismissRequest,
-            onClick = {
+            onAddOrEditClick = {
                 if (state.validate()) {
-                    onCreate(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
+                    when (modalMode) {
+                        TaskModalMode.CREATE -> onCreate(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
+                        TaskModalMode.EDIT -> onEdit(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
+                    }
                 }
+            },
+            onDeleteClick = {
+                onDelete()
             },
         )
     }
+}
+
+private class ModalBodyPreviewParameterProvider : PreviewParameterProvider<TaskModalMode> {
+    override val values = sequenceOf(
+        TaskModalMode.CREATE,
+        TaskModalMode.EDIT,
+    )
 }
 
 @Preview(
     widthDp = 672,
     heightDp = 820,
 )
+
+
 @Composable
-private fun ModalBodyPreview() {
+private fun ModalBodyPreview(@PreviewParameter(ModalBodyPreviewParameterProvider::class) taskModalMode: TaskModalMode) {
     val state = remember { ModalCreateFormState() }
     ModalBody(
         modifier = Modifier.background(Color.White),
+        modalMode = taskModalMode,
         state = state,
         assignee = TaskMockData.assignees,
         onDismissRequest = {},
         onCreate = { _, _ -> },
+        onEdit = { _, _ -> },
+        onDelete = {},
     )
+
 }

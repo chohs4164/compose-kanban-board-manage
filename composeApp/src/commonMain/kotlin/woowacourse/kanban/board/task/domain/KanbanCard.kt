@@ -4,8 +4,8 @@ data class KanbanCard(
     val id: Long,
     val boardId: Int,
     val title: String,
-    val assigneeName: String,
     val status: KanbanStatus,
+    val assigneeName: String,
     val content: String = "",
     val tags: List<String> = emptyList(),
 ) {
@@ -16,13 +16,23 @@ data class KanbanCard(
                 boardId = boardId,
                 title = form.title,
                 content = form.content,
-                assigneeName = form.crewName,
                 status = status,
+                assigneeName = form.assigneeName,
             )
         }
     }
 
     fun updateStatus(status: KanbanStatus): KanbanCard {
         return copy(status = status)
+    }
+
+    fun update(form: KanbanCardForm,status: KanbanStatus): KanbanCard{
+        return copy(
+            title = form.title,
+            content = form.content,
+            tags = form.tags,
+            status = status,
+            assigneeName = form.assigneeName,
+        )
     }
 }
