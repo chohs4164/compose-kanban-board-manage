@@ -2,6 +2,7 @@ package woowacourse.kanban.board.task.ui.card
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.task.domain.KanbanCard
+import woowacourse.kanban.board.task.domain.KanbanStatus
 
 /**
  * @param tags 최대 5개까지만 표시되는 태그 리스트입니다. 5개를 초과하면 상위 5개만 렌더링됩니다.
@@ -34,6 +36,7 @@ import woowacourse.kanban.board.task.domain.KanbanCard
 fun KanbanCardItem(
     kanbanCard: KanbanCard,
     modifier: Modifier = Modifier,
+    onCardClick: (KanbanCard) -> Unit,
     onDragStart: (KanbanCard) -> Unit = {},
     onDragChange: (Offset) -> Unit = {},
     onDragEnd: () -> Unit = {},
@@ -64,6 +67,7 @@ fun KanbanCardItem(
                     onDragCancel = { onDragCancel() },
                 )
             }
+            .clickable { onCardClick(kanbanCard) }
             .padding(17.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -88,32 +92,51 @@ fun KanbanCardItem(
 
 data class KanbanCardInfo(val title: String, val crewName: String, val tags: List<String> = emptyList(), val content: String = "")
 
-private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanCardInfo> {
+private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanCard> {
     val tags = listOf(
         "컴포넌트",
         "성능",
     )
     override val values = sequenceOf(
-        KanbanCardInfo(
+        // 기본
+        KanbanCard(
+            id = 0,
+            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            status = KanbanStatus.TO_DO,
+            assigneeName = "바드",
             tags = tags,
-            content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         ),
-        KanbanCardInfo(
+        // 내용이 없는 경우
+        KanbanCard(
+            id = 0,
+            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            content = "",
+            status = KanbanStatus.TO_DO,
+            assigneeName = "바드",
             tags = tags,
-            content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
         ),
-        KanbanCardInfo(
+        // 태그가 없는 경우
+        KanbanCard(
+            id = 0,
+            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            status = KanbanStatus.TO_DO,
+            assigneeName = "바드",
+            tags = emptyList(),
         ),
-        KanbanCardInfo(
+        // 내용과 태그가 없는 경우
+        KanbanCard(
+            id = 0,
+            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
-            crewName = "바드",
+            content = "",
+            status = KanbanStatus.TO_DO,
+            assigneeName = "바드",
+            tags = emptyList(),
         ),
     )
 }
@@ -132,5 +155,6 @@ private fun KanbanCardItemPreview(@PreviewParameter(KanbanCardPreviewParameterPr
     )
     KanbanCardItem(
         kanbanCard = kanbanCard,
+        onCardClick = {},
     )
 }

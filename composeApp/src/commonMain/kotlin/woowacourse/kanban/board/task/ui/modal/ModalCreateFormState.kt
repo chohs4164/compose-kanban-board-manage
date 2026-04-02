@@ -5,12 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskValidator
 
-class ModalCreateFormState {
+class ModalCreateFormState() {
     // 태스크 제목
     var title by mutableStateOf("")
 
@@ -66,10 +67,22 @@ class ModalCreateFormState {
             title = title,
             content = content,
             tags = tags,
-            crewName = assignees[assignee],
+            assigneeName = assignees[assignee],
         )
     }
 
     // 도메인에 상태를 넘거주기 위함
     fun toKanbanCardStatus() = KanbanStatus.entries[status]
+
+    companion object{
+        fun from(card: KanbanCard,assignees: List<String>): ModalCreateFormState{
+            return ModalCreateFormState().apply{
+                title = card.title
+                content = card.content
+                tag = card.tags.joinToString(",")
+                status = KanbanStatus.entries.indexOf(card.status)
+                assignee = assignees.indexOf(card.assigneeName).coerceAtLeast(0) // 카드의 담당자 이름이 assignees와 매칭되지 않는다면 첫번째 담당자로
+            }
+        }
+    }
 }

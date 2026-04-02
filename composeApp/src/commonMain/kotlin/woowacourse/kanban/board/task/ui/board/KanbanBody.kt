@@ -2,7 +2,6 @@ package woowacourse.kanban.board.task.ui.board
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -13,10 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -64,6 +61,7 @@ fun KanbanBody(
     inProgressCards: List<KanbanCard> = emptyList(),
     reviewCards: List<KanbanCard> = emptyList(),
     doneCards: List<KanbanCard> = emptyList(),
+    onCardClick: (KanbanCard) -> Unit,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
     onTaskDragStart: (KanbanCard) -> Unit = {},
@@ -75,10 +73,11 @@ fun KanbanBody(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
 
-    ) {
+        ) {
         KanbanColumn(
             status = KanbanStatus.TO_DO,
             cards = todoCards,
+            onCardClick = onCardClick,
             getIsDropTarget = getIsDropTarget,
             onBoundsChanged = onBoundsChanged,
             onTaskDragStart = onTaskDragStart,
@@ -89,6 +88,7 @@ fun KanbanBody(
         KanbanColumn(
             status = KanbanStatus.IN_PROGRESS,
             cards = inProgressCards,
+            onCardClick = onCardClick,
             getIsDropTarget = getIsDropTarget,
             onBoundsChanged = onBoundsChanged,
             onTaskDragStart = onTaskDragStart,
@@ -99,6 +99,7 @@ fun KanbanBody(
         KanbanColumn(
             status = KanbanStatus.REVIEW,
             cards = reviewCards,
+            onCardClick = onCardClick,
             getIsDropTarget = getIsDropTarget,
             onBoundsChanged = onBoundsChanged,
             onTaskDragStart = onTaskDragStart,
@@ -109,6 +110,7 @@ fun KanbanBody(
         KanbanColumn(
             KanbanStatus.DONE,
             cards = doneCards,
+            onCardClick = onCardClick,
             getIsDropTarget = getIsDropTarget,
             onBoundsChanged = onBoundsChanged,
             onTaskDragStart = onTaskDragStart,
@@ -126,6 +128,7 @@ private fun KanbanColumn(
     status: KanbanStatus,
     cards: List<KanbanCard>,
     modifier: Modifier = Modifier,
+    onCardClick: (KanbanCard) -> Unit,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
     onTaskDragStart: (KanbanCard) -> Unit = {},
@@ -228,6 +231,7 @@ private fun KanbanColumn(
             ) {
                 KanbanCardItem(
                     kanbanCard = it,
+                    onCardClick = onCardClick,
                     onDragStart = onTaskDragStart,
                     onDragChange = onTaskDragChange,
                     onDragEnd = onTaskDragEnd,
@@ -264,6 +268,7 @@ private fun KanbanBodyPreview() {
                 status = KanbanStatus.IN_PROGRESS,
             ),
         ),
+        onCardClick = {},
     )
 }
 
