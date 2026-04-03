@@ -3,7 +3,9 @@ package woowacourse.kanban.board.task.ui.modal
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import org.assertj.core.api.Assertions.assertThat
+import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanCardError
+import woowacourse.kanban.board.task.domain.KanbanStatus
 
 class ModalCreateFormStateTest {
     private lateinit var state: ModalCreateFormState
@@ -74,5 +76,43 @@ class ModalCreateFormStateTest {
 
         assertThat(state.isValidTag).isFalse()
         assertThat(state.validTag).isEqualTo(KanbanCardError.TAG_FORMAT)
+    }
+
+    @Test
+    fun `담당자 없음 옵션을 선택하면 null 담당자로 변환된다`() {
+        state.title = "태스크 제목"
+        state.assignee = AssigneeOption(AssigneeOptionType.NONE)
+
+        val form = state.toKanbanCardForm()
+
+        assertThat(form.assigneeName).isNull()
+    }
+
+    @Test
+    fun `담당자가 없는 카드를 수정할 때 없음 옵션으로 초기화된다`() {
+        val card = KanbanCard(
+            title = "태스크 제목",
+            status = KanbanStatus.TO_DO,
+            assigneeName = null,
+        )
+
+        val restoredState = ModalCreateFormState.from(card)
+
+        assertThat(restoredState.assignee.type).isEqualTo(AssigneeOptionType.NONE)
+        assertThat(restoredState.assignee.name).isNull()
+    }
+
+    @Test
+    fun `담당자가 있는 카드를 수정할 때 담당자 옵션으로 초기화된다`() {
+        val card = KanbanCard(
+            title = "태스크 제목",
+            status = KanbanStatus.REVIEW,
+            assigneeName = "조디악",
+        )
+
+        val restoredState = ModalCreateFormState.from(card)
+
+        assertThat(restoredState.assignee.type).isEqualTo(AssigneeOptionType.MEMBER)
+        assertThat(restoredState.assignee.name).isEqualTo("조디악")
     }
 }

@@ -5,6 +5,26 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class KanbanProjectTest {
+    private fun createProjectWithCard(status: KanbanStatus): KanbanProject {
+        return KanbanProject(
+            projectTitle = "프로젝트",
+            boards = listOf(
+                KanbanBoard(
+                    boardId = 0,
+                    title = "보드1",
+                    cards = listOf(
+                        KanbanCard(
+                            id = "1",
+                            title = "제목",
+                            assigneeName = "담당자",
+                            status = status,
+                        ),
+                    ),
+                ),
+            ),
+        )
+    }
+
     @Test
     fun `보드 ID로 보드를 조회할 수 있다`() {
         val project = KanbanProject(
@@ -86,28 +106,32 @@ class KanbanProjectTest {
         assertThat(updateProject?.getBoard(0)?.getCardByStatus(KanbanStatus.IN_PROGRESS)).hasSize(1)
     }
 
+    // 허용하지 않는 경우
     @Test
     fun `Review 상태의 카드를 삭제하려고 하면 예외가 발생한다`() {
-        val project = KanbanProject(
-            projectTitle = "프로젝트",
-            boards = listOf(
-                KanbanBoard(
-                    boardId = 0,
-                    title = "보드1",
-                    cards = listOf(
-                        KanbanCard(
-                            id = "1",
-                            title = "제목",
-                            assigneeName = "담당자",
-                            status = KanbanStatus.REVIEW,
-                        ),
-                    ),
-                ),
-            ),
-        )
+        val project = createProjectWithCard(KanbanStatus.REVIEW)
 
         assertFailsWith<IllegalArgumentException> {
             project.deleteCard(0, "1")
         }
+    }
+
+    @Test
+    fun `Done 상태의 카드를 삭제하려고 하면 예외가 발생한다`() {
+        val project = createProjectWithCard(KanbanStatus.DONE)
+
+        assertFailsWith<IllegalArgumentException> {
+            project.deleteCard(0, "1")
+        }
+    }
+
+    // 허용하는 경우
+    @Test
+    fun `To Do 상태의 카드는 삭제할 수 있다`() {
+        val project = createProjectWithCard(KanbanStatus.TO_DO)
+
+        val updatedProject = project.deleteCard(0, "1")
+
+        assertThat(updatedProject?.getBoard(0)?.cards).isEmpty()
     }
 }

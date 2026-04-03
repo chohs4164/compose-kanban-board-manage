@@ -5,13 +5,20 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class KanbanCardTest {
+    private fun createCard(
+        status: KanbanStatus,
+        assigneeName: String? = "담당자 1",
+    ): KanbanCard {
+        return KanbanCard(
+            title = "칸반제목 1",
+            assigneeName = assigneeName,
+            status = status,
+        )
+    }
+
     @Test
     fun `KanbanCard의 Status가 변경된다`() {
-        val kanbanCard = KanbanCard(
-            title = "칸반제목 1",
-            assigneeName = "담당자 1",
-            status = KanbanStatus.TO_DO,
-        )
+        val kanbanCard = createCard(KanbanStatus.TO_DO)
 
         val updateKanbanCard = kanbanCard.updateStatus(next = KanbanStatus.IN_PROGRESS)
 
@@ -20,14 +27,76 @@ class KanbanCardTest {
 
     @Test
     fun `담당자가 없으면 To Do에서 In Progress로 옮길 수 없다`() {
-        val kanbanCard = KanbanCard(
-            title = "칸반제목 1",
-            assigneeName = null,
+        val kanbanCard = createCard(
             status = KanbanStatus.TO_DO,
+            assigneeName = null,
         )
 
         assertFailsWith<IllegalArgumentException> {
             kanbanCard.updateStatus(KanbanStatus.IN_PROGRESS)
+        }
+    }
+
+    @Test
+    fun `In Progress 상태의 KanbanCard는 Review 상태로 변경할 수 있다`() {
+        val kanbanCard = createCard(KanbanStatus.IN_PROGRESS)
+
+        val updatedKanbanCard = kanbanCard.updateStatus(KanbanStatus.REVIEW)
+
+        assertThat(updatedKanbanCard.status).isEqualTo(KanbanStatus.REVIEW)
+    }
+
+    @Test
+    fun `Review 상태의 KanbanCard는 Done 상태로 변경할 수 있다`() {
+        val kanbanCard = createCard(KanbanStatus.REVIEW)
+
+        val updatedKanbanCard = kanbanCard.updateStatus(KanbanStatus.DONE)
+
+        assertThat(updatedKanbanCard.status).isEqualTo(KanbanStatus.DONE)
+    }
+
+    @Test
+    fun `Done 상태의 KanbanCard는 To Do 상태로 변경할 수 있다`() {
+        val kanbanCard = createCard(KanbanStatus.DONE)
+
+        val updatedKanbanCard = kanbanCard.updateStatus(KanbanStatus.TO_DO)
+
+        assertThat(updatedKanbanCard.status).isEqualTo(KanbanStatus.TO_DO)
+    }
+
+    @Test
+    fun `To Do 상태의 KanbanCard는 Review 상태로 변경할 수 없다`() {
+        val kanbanCard = createCard(KanbanStatus.TO_DO)
+
+        assertFailsWith<IllegalArgumentException> {
+            kanbanCard.updateStatus(KanbanStatus.REVIEW)
+        }
+    }
+
+    @Test
+    fun `In Progress 상태의 KanbanCard는 Done 상태로 변경할 수 없다`() {
+        val kanbanCard = createCard(KanbanStatus.IN_PROGRESS)
+
+        assertFailsWith<IllegalArgumentException> {
+            kanbanCard.updateStatus(KanbanStatus.DONE)
+        }
+    }
+
+    @Test
+    fun `Review 상태의 KanbanCard는 To Do 상태로 변경할 수 없다`() {
+        val kanbanCard = createCard(KanbanStatus.REVIEW)
+
+        assertFailsWith<IllegalArgumentException> {
+            kanbanCard.updateStatus(KanbanStatus.TO_DO)
+        }
+    }
+
+    @Test
+    fun `Done 상태의 KanbanCard는 Review 상태로 변경할 수 없다`() {
+        val kanbanCard = createCard(KanbanStatus.DONE)
+
+        assertFailsWith<IllegalArgumentException> {
+            kanbanCard.updateStatus(KanbanStatus.REVIEW)
         }
     }
 
@@ -87,5 +156,16 @@ class KanbanCardTest {
         assertThat(card.assigneeName).isEqualTo("바드")
         assertThat(card.tags).containsExactly("태그1", "태그2", "태그3")
         assertThat(card.content).isEqualTo("칸반 카드 내용")
+    }
+
+    @Test
+    fun `'ToDo' 상태의 'KanbanCard'는 담당자 미지정을 허용한다`(){
+        val kanbanCard = createCard(
+            status = KanbanStatus.TO_DO,
+            assigneeName = null,
+        )
+
+        assertThat(kanbanCard.assigneeName).isNull()
+        assertThat(kanbanCard.status).isEqualTo(KanbanStatus.TO_DO)
     }
 }

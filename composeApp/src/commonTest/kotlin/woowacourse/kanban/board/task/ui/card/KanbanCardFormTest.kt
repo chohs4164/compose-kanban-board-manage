@@ -98,27 +98,4 @@ class KanbanCardFormTest {
         Assertions.assertThat(formInfo.content).isEqualTo("칸반 카드 내용")
     }
 
-    @Test
-    fun `'ToDo' 상태의 'KanbanCard'는 담당자 미지정을 허용한다`() = runComposeUiTest {
-    }
-
-    @Test
-    fun `Review or Done 상태에서 태스크를 삭제하려고 할 때 스낵 바 노출`() = runComposeUiTest {
-    }
-
-    @Test
-    fun `불가능한 상태 전이를 시도할 때 스낵바 노출`() = runComposeUiTest {
-    }
-
-    @Test
-    fun `담당자를 지정하지 않고 In Progress로 전이할 때 스낵바 노출`() = runComposeUiTest {
-    }
-
-    @Test
-    fun `태스크가 수정되었을 때 스낵바 노출`() = runComposeUiTest {
-    }
-
-    @Test
-    fun `태스크가 삭제되었을 때 스낵바 노출`() = runComposeUiTest {
-    }
 }

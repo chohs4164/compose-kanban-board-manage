@@ -9,7 +9,10 @@ import androidx.compose.ui.text.TextLayoutResult
 import kotlin.test.assertEquals
 import org.junit.Test
 import woowacourse.kanban.board.task.domain.KanbanCard
+import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
+import java.util.UUID
+import kotlin.String
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardTest {
@@ -80,4 +83,6 @@ class KanbanCardTest {
 
         assertEquals(textLayoutResult.first().hasVisualOverflow, true)
     }
+
+
 }
