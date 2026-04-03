@@ -11,7 +11,7 @@ import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskValidator
 
-class ModalCreateFormState() {
+class ModalCreateFormState {
     // 태스크 제목
     var title by mutableStateOf("")
 

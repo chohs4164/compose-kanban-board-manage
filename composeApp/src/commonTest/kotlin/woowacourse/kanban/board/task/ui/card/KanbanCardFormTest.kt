@@ -1,10 +1,11 @@
-package woowacourse.kanban.board.task.domain
+package woowacourse.kanban.board.task.ui.card
 
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.runComposeUiTest
 import kotlin.test.assertFailsWith
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions
 import org.junit.Test
+import woowacourse.kanban.board.task.domain.KanbanCardForm
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardFormTest {
@@ -43,7 +44,7 @@ class KanbanCardFormTest {
         assertFailsWith<IllegalArgumentException> {
             KanbanCardForm(
                 title = "제목이름",
-                crewName = "바드",
+                assigneeName = "바드",
                 tags = listOf(
                     "태그1",
                     "태그2",
@@ -61,7 +62,7 @@ class KanbanCardFormTest {
         assertFailsWith<IllegalArgumentException> {
             KanbanCardForm(
                 title = "제목 이름",
-                crewName = "바드",
+                assigneeName = "바드",
                 tags = listOf("긴 태그이름입니다."),
             )
         }
@@ -80,20 +81,44 @@ class KanbanCardFormTest {
 
         val formInfo = KanbanCardForm(
             title = title,
-            crewName = crewName,
+            assigneeName = crewName,
             tags = tags,
             content = content,
         )
 
-        assertThat(formInfo.title).isEqualTo("제목 이름")
-        assertThat(formInfo.crewName).isEqualTo("바드")
-        assertThat(formInfo.tags).isEqualTo(
+        Assertions.assertThat(formInfo.title).isEqualTo("제목 이름")
+        Assertions.assertThat(formInfo.assigneeName).isEqualTo("바드")
+        Assertions.assertThat(formInfo.tags).isEqualTo(
             listOf(
                 "태그1",
                 "태그2",
                 "태그3",
             ),
         )
-        assertThat(formInfo.content).isEqualTo("칸반 카드 내용")
+        Assertions.assertThat(formInfo.content).isEqualTo("칸반 카드 내용")
+    }
+
+    @Test
+    fun `'ToDo' 상태의 'KanbanCard'는 담당자 미지정을 허용한다`() = runComposeUiTest {
+    }
+
+    @Test
+    fun `Review or Done 상태에서 태스크를 삭제하려고 할 때 스낵 바 노출`() = runComposeUiTest {
+    }
+
+    @Test
+    fun `불가능한 상태 전이를 시도할 때 스낵바 노출`() = runComposeUiTest {
+    }
+
+    @Test
+    fun `담당자를 지정하지 않고 In Progress로 전이할 때 스낵바 노출`() = runComposeUiTest {
+    }
+
+    @Test
+    fun `태스크가 수정되었을 때 스낵바 노출`() = runComposeUiTest {
+    }
+
+    @Test
+    fun `태스크가 삭제되었을 때 스낵바 노출`() = runComposeUiTest {
     }
 }

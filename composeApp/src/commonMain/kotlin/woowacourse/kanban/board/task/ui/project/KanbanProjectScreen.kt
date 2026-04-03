@@ -19,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanProject
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
@@ -84,7 +83,6 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
                 kanbanProject = kanbanProject.deleteCard(
                     id = id,
                 )
-
             },
             getIsDropTarget = { status ->
                 currentDragPosition?.let { columnBounds[status]?.contains(it) } ?: false

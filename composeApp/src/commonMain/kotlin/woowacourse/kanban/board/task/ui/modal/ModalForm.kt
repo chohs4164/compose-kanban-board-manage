@@ -3,7 +3,6 @@ package woowacourse.kanban.board.task.ui.modal
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
@@ -16,14 +15,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.modal_title_new_task
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
-
 
 @Composable
 fun ModalForm(

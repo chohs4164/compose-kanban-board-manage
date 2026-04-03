@@ -42,10 +42,7 @@ enum class AssigneeOptionType {
     MEMBER,
 }
 
-data class AssigneeOption(
-    val type: AssigneeOptionType,
-    val name: String? = null,
-) {
+data class AssigneeOption(val type: AssigneeOptionType, val name: String? = null) {
     val label: String
         get() = name ?: "없음"
     val hasIcon: Boolean
@@ -133,19 +130,20 @@ fun ModalBody(
             },
         )
 
-
         // 담당자
-        val selectedStatus = KanbanStatus.entries[state.status];
+        val selectedStatus = KanbanStatus.entries[state.status]
         val assigneeOptions = if (selectedStatus == KanbanStatus.TO_DO) {
             listOf(AssigneeOption(AssigneeOptionType.NONE)) +
-                    assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
+                assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         } else {
             assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         }
 
         ModalSelector(
 
-            title = if (selectedStatus == KanbanStatus.TO_DO) stringResource(Res.string.label_assignee_without_essential) else stringResource(
+            title = if (selectedStatus ==
+                KanbanStatus.TO_DO
+            ) stringResource(Res.string.label_assignee_without_essential) else stringResource(
                 Res.string.label_assignee_with_essential,
             ),
             content = {
@@ -168,7 +166,6 @@ fun ModalBody(
                 }
             },
         )
-
 
         // 취소 / 생성 버튼
         ModalAction(
@@ -209,8 +206,6 @@ private class ModalBodyPreviewParameterProvider : PreviewParameterProvider<TaskM
     widthDp = 672,
     heightDp = 820,
 )
-
-
 @Composable
 private fun ModalBodyPreview(@PreviewParameter(ModalBodyPreviewParameterProvider::class) taskModalMode: TaskModalMode) {
     val state = remember { ModalCreateFormState() }
@@ -224,5 +219,4 @@ private fun ModalBodyPreview(@PreviewParameter(ModalBodyPreviewParameterProvider
         onEdit = { _, _ -> },
         onDelete = {},
     )
-
 }

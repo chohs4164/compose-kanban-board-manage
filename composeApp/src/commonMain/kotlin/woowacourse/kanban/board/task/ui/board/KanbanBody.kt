@@ -73,7 +73,7 @@ fun KanbanBody(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
 
-        ) {
+    ) {
         KanbanColumn(
             status = KanbanStatus.TO_DO,
             cards = todoCards,

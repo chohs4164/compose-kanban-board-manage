@@ -140,9 +140,7 @@ fun ModalAction(
                     }
 
                 else -> ""
-
             }
-
         }
     }
 }
