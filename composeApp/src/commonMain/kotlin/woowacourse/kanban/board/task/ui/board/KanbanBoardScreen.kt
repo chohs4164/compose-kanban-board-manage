@@ -40,31 +40,24 @@ enum class TaskModalMode {
 
 @Composable
 fun KanbanBoardScreen(
+    kanbanBoard: KanbanBoard,
+    onAddCard: (KanbanCardForm, KanbanStatus) -> Unit,
+    onEditCard: (String, KanbanCardForm, KanbanStatus) -> Unit,
+    onDeleteCard: (String) -> Unit,
     modifier: Modifier = Modifier,
-    kanbanBoard: KanbanBoard, // KanbanProject 에서 띄울 KanbanBoard 하나
-    onAddCard: (KanbanCardForm, KanbanStatus) -> Unit, // 카드 추가(boardId, 보드 폼 내용, 칸반카드 상태 받아옴)
-    onEditCard: (Long, KanbanCardForm, KanbanStatus) -> Unit,
-    onDeleteCard: (Long) -> Unit,
-    getIsDropTarget: (KanbanStatus) -> Boolean = { false }, // 칸반 카드가 놓아지는 위치 파악
-    onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> }, // 칸반 카드 상태와 위치 변경 파악
-    onTaskDragStart: (KanbanCard) -> Unit = {}, // task 드래그 시작
-    onTaskDragChange: (Offset) -> Unit = {}, // task의 위치가 바뀌었는지 파악
-    onTaskDragEnd: () -> Unit = {}, // task의 최종 위치 파악
-    onTaskDragCancel: () -> Unit = {}, // task 드래그 취소
+    getIsDropTarget: (KanbanStatus) -> Boolean = { false },
+    onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
+    onTaskDragStart: (KanbanCard) -> Unit = {},
+    onTaskDragChange: (Offset) -> Unit = {},
+    onTaskDragEnd: () -> Unit = {},
+    onTaskDragCancel: () -> Unit = {},
     snackbarHostState: SnackbarHostState,
     scope: CoroutineScope,
 ) {
     var editingCard by remember { mutableStateOf<KanbanCard?>(null) }
     var taskModalMode by remember { mutableStateOf<TaskModalMode?>(null) }
-    // 새 태스크 생성 모달 창을 화면에 띄울 건지
     var isShowAddTaskModal by remember { mutableStateOf(false) }
-    // 기존 태스크 수정 모달 창을 화면에 띄울 건지
     var isShowEditTaskModal by remember { mutableStateOf(false) }
-    // 상태에 따른 KanbanCard 분리를 위한 관리
-    val todoCards = kanbanBoard.getCardByStatus(KanbanStatus.TO_DO)
-    val inProgressCards = kanbanBoard.getCardByStatus(KanbanStatus.IN_PROGRESS)
-    val reviewCards = kanbanBoard.getCardByStatus(KanbanStatus.REVIEW)
-    val doneCards = kanbanBoard.getCardByStatus(KanbanStatus.DONE)
 
     when (taskModalMode) {
         TaskModalMode.CREATE -> if (isShowAddTaskModal) {
@@ -85,7 +78,6 @@ fun KanbanBoardScreen(
                 modifier = Modifier.width(672.dp).height(820.dp),
             )
         }
-
         TaskModalMode.EDIT -> if (isShowEditTaskModal) {
             ModalForm(
                 editingCard = editingCard,
@@ -127,11 +119,9 @@ fun KanbanBoardScreen(
                 },
             )
         }
-
-        else -> ""
+        null -> Unit
     }
 
-    // 칸반 보드
     Scaffold(
         modifier = modifier,
         containerColor = Color.White,
@@ -160,19 +150,16 @@ fun KanbanBoardScreen(
             )
         },
     ) { paddingValues ->
-        val scrollstate = rememberScrollState()
+        val scrollState = rememberScrollState()
 
-        KanbanBody(
-            todoCards = todoCards,
-            inProgressCards = inProgressCards,
-            reviewCards = reviewCards,
-            doneCards = doneCards,
+        KanbanBoardContent(
+            kanbanBoard = kanbanBoard,
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxWidth()
                 .background(Gray50)
                 .padding(24.dp)
-                .horizontalScroll(scrollstate),
+                .horizontalScroll(scrollState),
             onCardClick = { card ->
                 editingCard = card
                 taskModalMode = TaskModalMode.EDIT
@@ -200,6 +187,7 @@ private fun KanbanBoardScreenPreview() {
         onEditCard = { _, _, _ -> },
         onDeleteCard = {},
         kanbanBoard = KanbanBoard(
+            boardId = 0,
             title = "compose",
             cards = listOf(),
         ),

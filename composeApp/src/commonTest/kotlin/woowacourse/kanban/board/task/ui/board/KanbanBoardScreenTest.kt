@@ -39,7 +39,10 @@ class KanbanBoardScreenTest {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
                 onAddCard = { _, _ -> },
+                onEditCard = { _, _, _ -> },
+                onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
+                    boardId = 0,
                     title = "compose",
                     cards = listOf(),
                 ),
@@ -58,9 +61,11 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-
                 onAddCard = { _, _ -> },
+                onEditCard = { _, _, _ -> },
+                onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
+                    boardId = 0,
                     title = "compose",
                     cards = listOf(),
                 ),
@@ -83,9 +88,11 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-
                 onAddCard = { _, _ -> },
+                onEditCard = { _, _, _ -> },
+                onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
+                    boardId = 0,
                     title = "compose",
                     cards = listOf(),
                 ),
@@ -107,7 +114,10 @@ class KanbanBoardScreenTest {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
                 onAddCard = { _, _ -> },
+                onEditCard = { _, _, _ -> },
+                onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
+                    boardId = 0,
                     title = "compose",
                     cards = listOf(),
                 ),

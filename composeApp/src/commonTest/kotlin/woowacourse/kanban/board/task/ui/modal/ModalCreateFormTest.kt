@@ -20,6 +20,7 @@ class ModalCreateFormTest {
         setContent {
             CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
                 ModalForm(
+                    modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
                     onCreate = { _, _ -> },
@@ -40,6 +41,7 @@ class ModalCreateFormTest {
         setContent {
             CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
                 ModalForm(
+                    modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
                     onCreate = { _, _ -> },
@@ -61,6 +63,7 @@ class ModalCreateFormTest {
         setContent {
             CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
                 ModalForm(
+                    modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
                     onCreate = { _, _ -> },
@@ -82,6 +85,7 @@ class ModalCreateFormTest {
         setContent {
             CompositionLocalProvider(LocalDensity provides Density(density = 0.1f)) {
                 ModalForm(
+                    modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
                     onCreate = { _, _ -> },

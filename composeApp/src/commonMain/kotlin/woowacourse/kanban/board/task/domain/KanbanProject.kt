@@ -1,39 +1,43 @@
 package woowacourse.kanban.board.task.domain
 
-data class KanbanProject(val projectTitle: String, val kanbanCards: List<KanbanCard> = emptyList()) {
-    fun updateCardStatus(id: Long, status: KanbanStatus): KanbanProject {
-        val newCard = getKanbanCard(id).updateStatus(status)
-        val updatedCards = kanbanCards.map { card ->
-            if (card.id == id) newCard else card
+data class KanbanProject(val projectTitle: String, val boards: List<KanbanBoard> = emptyList()) {
+    fun getBoard(boardId: Int): KanbanBoard? = boards.find { it.boardId == boardId }
+
+    fun getBoardTitles(): List<String> = boards.map { it.title }
+
+    fun updateCardStatus(boardId: Int, cardId: String, status: KanbanStatus): KanbanProject? {
+        val targetBoard = getBoard(boardId) ?: return null
+        val updateBoard = targetBoard.updateCardStatus(cardId = cardId, status = status) ?: return null
+        val newBoards = boards.map {
+            if (it.boardId == boardId) updateBoard else it
         }
-        return copy(kanbanCards = updatedCards.toList())
+        return copy(boards = newBoards)
     }
 
-    fun addCard(kanbanCard: KanbanCard) = copy(kanbanCards = kanbanCards + kanbanCard)
-
-    // 카드의 내용을 수정
-    fun updateCard(id: Long, form: KanbanCardForm, status: KanbanStatus): KanbanProject {
-        val updateCards = kanbanCards.map { card ->
-            if (card.id == id) {
-                card.update(form, status)
-            } else {
-                card
-            }
+    fun addBoardCard(boardId: Int, card: KanbanCard): KanbanProject? {
+        val targetBoard = getBoard(boardId) ?: return null
+        val addBoard = targetBoard.addCard(card)
+        val newBoards = boards.map {
+            if (it.boardId == boardId) addBoard else it
         }
-        return copy(kanbanCards = updateCards)
+        return copy(boards = newBoards)
     }
 
-    // 카드를 삭제
-    fun deleteCard(id: Long): KanbanProject {
-        val card = getKanbanCard(id)
-        card.validateDeletable()
-        return copy(kanbanCards = kanbanCards.filterNot { it.id == id })
+    fun updateCard(boardId: Int, cardId: String, form: KanbanCardForm, status: KanbanStatus): KanbanProject? {
+        val targetBoard = getBoard(boardId) ?: return null
+        val updateBoard = targetBoard.updateCard(cardId = cardId, form = form, status = status) ?: return null
+        val newBoards = boards.map {
+            if (it.boardId == boardId) updateBoard else it
+        }
+        return copy(boards = newBoards)
     }
 
-    fun getKanbanCard(id: Long): KanbanCard {
-        val findKanbanCard = kanbanCards.find { it.id == id } ?: throw IllegalArgumentException("id가 ${id}인 카드를 찾지 못했습니다.")
-        return findKanbanCard
+    fun deleteCard(boardId: Int, cardId: String): KanbanProject? {
+        val targetBoard = getBoard(boardId) ?: return null
+        val deleteBoard = targetBoard.deleteCard(cardId) ?: return null
+        val newBoards = boards.map {
+            if (it.boardId == boardId) deleteBoard else it
+        }
+        return copy(boards = newBoards)
     }
-
-    fun getKanbanCardByBoardId(boardId: Int) = kanbanCards.filter { it.boardId == boardId }
 }

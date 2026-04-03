@@ -30,12 +30,10 @@ fun ModalForm(
     onDismissRequest: () -> Unit,
     onCreate: (KanbanCardForm, KanbanStatus) -> Unit = { _, _ -> },
     onEdit: (KanbanCardForm, KanbanStatus) -> Unit = { _, _ -> },
-    onDelete: () -> Unit = { },
+    onDelete: () -> Unit = {},
 ) {
-    // 모달의 내용과 상태(생성일 때에는 빈 값, 수정일 때에는 기존 값 받아오기)
     val state = remember(editingCard?.id) {
-        editingCard?.let { ModalCreateFormState.from(editingCard) }
-            ?: ModalCreateFormState()
+        editingCard?.let { ModalCreateFormState.from(it) } ?: ModalCreateFormState()
     }
 
     Dialog(
@@ -51,11 +49,13 @@ fun ModalForm(
                     RoundedCornerShape(10.dp),
                 ),
         ) {
-            // 모달 헤더
-            ModalHeader(modalMode = modalMode, onDismissRequest = onDismissRequest)
+            ModalHeader(
+                modalMode = modalMode,
+                onDismissRequest = onDismissRequest,
+            )
 
             HorizontalDivider(color = Color.LightGray)
-            // 모달 바디
+
             ModalBody(
                 modifier = Modifier,
                 modalMode = modalMode,
@@ -82,7 +82,10 @@ private class ModalFormPreviewParameterProvider : PreviewParameterProvider<TaskM
     heightDp = 1000,
 )
 @Composable
-private fun ModalFormPreview(@PreviewParameter(ModalFormPreviewParameterProvider::class) taskModalMode: TaskModalMode) {
+private fun ModalFormPreview(
+    @PreviewParameter(ModalFormPreviewParameterProvider::class)
+    taskModalMode: TaskModalMode,
+) {
     ModalForm(
         modalMode = taskModalMode,
         assignee = TaskMockData.assignees,

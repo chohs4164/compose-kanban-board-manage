@@ -29,9 +29,6 @@ import androidx.compose.ui.unit.dp
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
-/**
- * @param tags 최대 5개까지만 표시되는 태그 리스트입니다. 5개를 초과하면 상위 5개만 렌더링됩니다.
- */
 @Composable
 fun KanbanCardItem(
     kanbanCard: KanbanCard,
@@ -43,6 +40,7 @@ fun KanbanCardItem(
     onDragCancel: () -> Unit = {},
 ) {
     var cardWindowPosition by remember { mutableStateOf(Offset.Zero) }
+
     Column(
         modifier = modifier
             .width(286.dp)
@@ -63,8 +61,8 @@ fun KanbanCardItem(
                         change.consume()
                         onDragChange(cardWindowPosition + change.position)
                     },
-                    onDragEnd = { onDragEnd() },
-                    onDragCancel = { onDragCancel() },
+                    onDragEnd = onDragEnd,
+                    onDragCancel = onDragCancel,
                 )
             }
             .clickable { onCardClick(kanbanCard) }
@@ -92,52 +90,39 @@ fun KanbanCardItem(
     }
 }
 
-data class KanbanCardInfo(val title: String, val crewName: String, val tags: List<String> = emptyList(), val content: String = "")
-
 private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<KanbanCard> {
-    val tags = listOf(
+    private val tags = listOf(
         "컴포넌트",
         "성능",
     )
+
     override val values = sequenceOf(
-        // 기본
         KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             status = KanbanStatus.TO_DO,
             assigneeName = "바드",
             tags = tags,
         ),
-        // 내용이 없는 경우
         KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             content = "",
             status = KanbanStatus.TO_DO,
             assigneeName = "바드",
             tags = tags,
         ),
-        // 태그가 없는 경우
         KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
             status = KanbanStatus.TO_DO,
             assigneeName = "바드",
             tags = emptyList(),
         ),
-        // 내용과 태그가 없는 경우
         KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             content = "",
             status = KanbanStatus.TO_DO,
-            assigneeName = "바드",
+            assigneeName = null,
             tags = emptyList(),
         ),
     )
@@ -145,18 +130,12 @@ private class KanbanCardPreviewParameterProvider : PreviewParameterProvider<Kanb
 
 @Preview
 @Composable
-private fun KanbanCardItemPreview(@PreviewParameter(KanbanCardPreviewParameterProvider::class) card: KanbanCard) {
-    val kanbanCard = KanbanCard(
-        id = 0,
-        boardId = 0,
-        title = card.title,
-        assigneeName = card.assigneeName,
-        status = card.status,
-        content = card.content,
-        tags = card.tags,
-    )
+private fun KanbanCardItemPreview(
+    @PreviewParameter(KanbanCardPreviewParameterProvider::class)
+    card: KanbanCard,
+) {
     KanbanCardItem(
-        kanbanCard = kanbanCard,
+        kanbanCard = card,
         onCardClick = {},
     )
 }
