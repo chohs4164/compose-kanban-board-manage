@@ -98,10 +98,10 @@ fun KanbanBoardScreen(
                 },
                 onDelete = {
                     try {
+                        isShowEditTaskModal = false
                         editingCard?.let { card ->
                             onDeleteCard(card.id)
                         }
-                        isShowEditTaskModal = false
                         scope.launch {
                             snackbarHostState.showSnackbar(
                                 message = "태스크가 삭제되었습니다.",
