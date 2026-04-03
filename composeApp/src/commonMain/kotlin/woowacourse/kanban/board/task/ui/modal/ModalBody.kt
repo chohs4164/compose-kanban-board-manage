@@ -17,7 +17,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.label_assignee
+import kanbanboard.composeapp.generated.resources.label_assignee_with_essential
+import kanbanboard.composeapp.generated.resources.label_assignee_without_essential
 import kanbanboard.composeapp.generated.resources.label_description
 import kanbanboard.composeapp.generated.resources.label_status
 import kanbanboard.composeapp.generated.resources.label_tags
@@ -143,7 +144,10 @@ fun ModalBody(
         }
 
         ModalSelector(
-            title = stringResource(Res.string.label_assignee),
+
+            title = if (selectedStatus == KanbanStatus.TO_DO) stringResource(Res.string.label_assignee_without_essential) else stringResource(
+                Res.string.label_assignee_with_essential,
+            ),
             content = {
                 items(assigneeOptions) { option ->
                     ModalOptionButton(
