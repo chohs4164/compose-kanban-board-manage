@@ -24,8 +24,8 @@ class ModalCreateFormState() {
     // 태스크 상태 with index
     var status by mutableIntStateOf(0)
 
-    // 태스크 담당자 with index
-    var assignee by mutableIntStateOf(0)
+    // 태스크 담당자
+    var assignee by mutableStateOf(AssigneeOption(AssigneeOptionType.NONE))
 
     // 태스크 제목 유효성 검사를 통과한 제목
     var validTitle by mutableStateOf(TaskErrorType.TITLE_DEFAULT)
@@ -61,27 +61,33 @@ class ModalCreateFormState() {
     }
 
     // 도메인에서 쓸 제출 데이터
-    fun toKanbanCardForm(assignees: List<String>): KanbanCardForm {
+    fun toKanbanCardForm(): KanbanCardForm {
         val tags = if (tag.isEmpty()) emptyList() else tag.split(",").map { it.trim() }
         return KanbanCardForm(
             title = title,
             content = content,
             tags = tags,
-            assigneeName = assignees[assignee],
+            assigneeName = when (assignee.type) {
+                AssigneeOptionType.NONE -> null
+                AssigneeOptionType.MEMBER -> assignee.name
+            },
         )
     }
 
     // 도메인에 상태를 넘거주기 위함
     fun toKanbanCardStatus() = KanbanStatus.entries[status]
 
-    companion object{
-        fun from(card: KanbanCard,assignees: List<String>): ModalCreateFormState{
-            return ModalCreateFormState().apply{
+    companion object {
+        fun from(card: KanbanCard): ModalCreateFormState {
+            return ModalCreateFormState().apply {
                 title = card.title
                 content = card.content
                 tag = card.tags.joinToString(",")
                 status = KanbanStatus.entries.indexOf(card.status)
-                assignee = assignees.indexOf(card.assigneeName).coerceAtLeast(0) // 카드의 담당자 이름이 assignees와 매칭되지 않는다면 첫번째 담당자로
+                assignee = when (card.assigneeName) {
+                    null -> AssigneeOption(AssigneeOptionType.NONE)
+                    else -> AssigneeOption(AssigneeOptionType.MEMBER, card.assigneeName)
+                }
             }
         }
     }

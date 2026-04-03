@@ -24,6 +24,7 @@ import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
 
+
 @Composable
 fun ModalForm(
     editingCard: KanbanCard? = null,
@@ -37,7 +38,7 @@ fun ModalForm(
 ) {
     // 모달의 내용과 상태(생성일 때에는 빈 값, 수정일 때에는 기존 값 받아오기)
     val state = remember(editingCard?.id) {
-        editingCard?.let { ModalCreateFormState.from(editingCard, assignee) }
+        editingCard?.let { ModalCreateFormState.from(editingCard) }
             ?: ModalCreateFormState()
     }
 

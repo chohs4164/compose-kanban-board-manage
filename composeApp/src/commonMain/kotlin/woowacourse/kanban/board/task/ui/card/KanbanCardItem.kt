@@ -86,7 +86,9 @@ fun KanbanCardItem(
             color = Color.LightGray,
         )
 
-        KanbanCardProfile(kanbanCard.assigneeName)
+        KanbanCardProfile(
+            crewName = kanbanCard.assigneeName
+        )
     }
 }
 

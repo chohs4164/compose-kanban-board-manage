@@ -106,6 +106,7 @@ private fun ModalAssigneeSelectorPreview() {
                     ModalOptionAssignee(
                         modifier = Modifier,
                         name = name,
+                        isExist = true
                     )
                 }
             }
