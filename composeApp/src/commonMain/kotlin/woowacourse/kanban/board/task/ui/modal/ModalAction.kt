@@ -100,7 +100,7 @@ fun ModalAction(
                             modifier = Modifier
                                 .height(44.dp)
                                 .width(68.dp),
-                            enabled = isValidTitle && isValidTag,
+                            enabled = true,
                             onClick = onDeleteClick,
                             colors = ButtonColors(
                                 containerColor = Red500,
@@ -138,8 +138,6 @@ fun ModalAction(
                             )
                         }
                     }
-
-                else -> ""
             }
         }
     }

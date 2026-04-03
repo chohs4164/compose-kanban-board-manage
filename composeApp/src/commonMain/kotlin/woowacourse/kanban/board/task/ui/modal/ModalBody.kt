@@ -26,10 +26,10 @@ import kanbanboard.composeapp.generated.resources.label_title
 import kanbanboard.composeapp.generated.resources.place_holder_input_description
 import kanbanboard.composeapp.generated.resources.place_holder_input_tags
 import kanbanboard.composeapp.generated.resources.place_holder_input_title
+import kanbanboard.composeapp.generated.resources.supporting_text_tags
 import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
-import woowacourse.kanban.board.task.domain.TaskErrorType
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
 import woowacourse.kanban.board.theme.Blue50
@@ -42,9 +42,13 @@ enum class AssigneeOptionType {
     MEMBER,
 }
 
-data class AssigneeOption(val type: AssigneeOptionType, val name: String? = null) {
+data class AssigneeOption(
+    val type: AssigneeOptionType,
+    val name: String? = null,
+) {
     val label: String
         get() = name ?: "없음"
+
     val hasIcon: Boolean
         get() = type == AssigneeOptionType.MEMBER
 }
@@ -66,54 +70,48 @@ fun ModalBody(
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        // 제목 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_title),
             placeholder = stringResource(Res.string.place_holder_input_title),
             maxLines = 1,
-            validType = state.validTitle,
             state = state.title,
             onValueChange = {
                 state.title = it
                 state.resetTitleError()
             },
             isValid = state.isValidTitle,
+            errorType = state.validTitle,
         )
 
-        // 설명 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_description),
             placeholder = stringResource(Res.string.place_holder_input_description),
             maxLines = 5,
-            validType = TaskErrorType.DESCRIPTION_DEFAULT,
             state = state.content,
             onValueChange = {
                 state.content = it
             },
-            isValid = true, // 설명은 유효성 검사 필요 없음
+            isValid = true,
         )
 
-        // 태그 영역
         ModalBodyInput(
             title = stringResource(Res.string.label_tags),
             placeholder = stringResource(Res.string.place_holder_input_tags),
             maxLines = 1,
-            validType = state.validTag,
             state = state.tag,
             onValueChange = {
                 state.tag = it
                 state.resetTagError()
             },
-            isValid = state.validTag == TaskErrorType.TAG_DEFAULT,
+            isValid = state.isValidTag,
+            errorType = state.validTag,
+            supportingMessage = stringResource(Res.string.supporting_text_tags),
         )
 
-        // 상태 영역
         ModalSelector(
             title = stringResource(Res.string.label_status),
             content = {
-                itemsIndexed(
-                    KanbanStatus.entries,
-                ) { id, status ->
+                itemsIndexed(KanbanStatus.entries) { id, kanbanStatus ->
                     ModalOptionButton(
                         modifier = Modifier.height(52.dp),
                         onClick = { state.status = id },
@@ -123,14 +121,13 @@ fun ModalBody(
                     ) {
                         ModalOptionStatus(
                             modifier = Modifier,
-                            kanbanStatus = status,
+                            kanbanStatus = kanbanStatus,
                         )
                     }
                 }
             },
         )
 
-        // 담당자
         val selectedStatus = KanbanStatus.entries[state.status]
         val assigneeOptions = if (selectedStatus == KanbanStatus.TO_DO) {
             listOf(AssigneeOption(AssigneeOptionType.NONE)) +
@@ -140,12 +137,11 @@ fun ModalBody(
         }
 
         ModalSelector(
-
-            title = if (selectedStatus ==
-                KanbanStatus.TO_DO
-            ) stringResource(Res.string.label_assignee_without_essential) else stringResource(
-                Res.string.label_assignee_with_essential,
-            ),
+            title = if (selectedStatus == KanbanStatus.TO_DO) {
+                stringResource(Res.string.label_assignee_without_essential)
+            } else {
+                stringResource(Res.string.label_assignee_with_essential)
+            },
             content = {
                 items(assigneeOptions) { option ->
                     ModalOptionButton(
@@ -167,7 +163,6 @@ fun ModalBody(
             },
         )
 
-        // 취소 / 생성 버튼
         ModalAction(
             modalMode = modalMode,
             isValidTitle = state.isValidTitle,
@@ -180,7 +175,6 @@ fun ModalBody(
                             state.toKanbanCardForm(),
                             state.toKanbanCardStatus(),
                         )
-
                         TaskModalMode.EDIT -> onEdit(
                             state.toKanbanCardForm(),
                             state.toKanbanCardStatus(),
@@ -188,9 +182,7 @@ fun ModalBody(
                     }
                 }
             },
-            onDeleteClick = {
-                onDelete()
-            },
+            onDeleteClick = onDelete,
         )
     }
 }
@@ -207,7 +199,10 @@ private class ModalBodyPreviewParameterProvider : PreviewParameterProvider<TaskM
     heightDp = 820,
 )
 @Composable
-private fun ModalBodyPreview(@PreviewParameter(ModalBodyPreviewParameterProvider::class) taskModalMode: TaskModalMode) {
+private fun ModalBodyPreview(
+    @PreviewParameter(ModalBodyPreviewParameterProvider::class)
+    taskModalMode: TaskModalMode,
+) {
     val state = remember { ModalCreateFormState() }
     ModalBody(
         modifier = Modifier.background(Color.White),

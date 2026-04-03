@@ -38,6 +38,7 @@ import kanbanboard.composeapp.generated.resources.status_In_Progress
 import kanbanboard.composeapp.generated.resources.status_To_Do
 import kanbanboard.composeapp.generated.resources.status_review
 import org.jetbrains.compose.resources.stringResource
+import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.ui.card.KanbanCardItem
@@ -55,12 +56,9 @@ import woowacourse.kanban.board.theme.Yellow300
 import woowacourse.kanban.board.theme.Yellow50
 
 @Composable
-fun KanbanBody(
+fun KanbanBoardContent(
+    kanbanBoard: KanbanBoard,
     modifier: Modifier = Modifier,
-    todoCards: List<KanbanCard> = emptyList(),
-    inProgressCards: List<KanbanCard> = emptyList(),
-    reviewCards: List<KanbanCard> = emptyList(),
-    doneCards: List<KanbanCard> = emptyList(),
     onCardClick: (KanbanCard) -> Unit,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
@@ -72,63 +70,35 @@ fun KanbanBody(
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
-
     ) {
-        KanbanColumn(
-            status = KanbanStatus.TO_DO,
-            cards = todoCards,
-            onCardClick = onCardClick,
-            getIsDropTarget = getIsDropTarget,
-            onBoundsChanged = onBoundsChanged,
-            onTaskDragStart = onTaskDragStart,
-            onTaskDragChange = onTaskDragChange,
-            onTaskDragEnd = onTaskDragEnd,
-            onTaskDragCancel = onTaskDragCancel,
-        )
-        KanbanColumn(
-            status = KanbanStatus.IN_PROGRESS,
-            cards = inProgressCards,
-            onCardClick = onCardClick,
-            getIsDropTarget = getIsDropTarget,
-            onBoundsChanged = onBoundsChanged,
-            onTaskDragStart = onTaskDragStart,
-            onTaskDragChange = onTaskDragChange,
-            onTaskDragEnd = onTaskDragEnd,
-            onTaskDragCancel = onTaskDragCancel,
-        )
-        KanbanColumn(
-            status = KanbanStatus.REVIEW,
-            cards = reviewCards,
-            onCardClick = onCardClick,
-            getIsDropTarget = getIsDropTarget,
-            onBoundsChanged = onBoundsChanged,
-            onTaskDragStart = onTaskDragStart,
-            onTaskDragChange = onTaskDragChange,
-            onTaskDragEnd = onTaskDragEnd,
-            onTaskDragCancel = onTaskDragCancel,
-        )
-        KanbanColumn(
-            KanbanStatus.DONE,
-            cards = doneCards,
-            onCardClick = onCardClick,
-            getIsDropTarget = getIsDropTarget,
-            onBoundsChanged = onBoundsChanged,
-            onTaskDragStart = onTaskDragStart,
-            onTaskDragChange = onTaskDragChange,
-            onTaskDragEnd = onTaskDragEnd,
-            onTaskDragCancel = onTaskDragCancel,
-        )
+        KanbanStatus.entries.forEach { status ->
+            KanbanBoardStatusColumn(
+                status = status,
+                cards = kanbanBoard.getCardByStatus(status),
+                onCardClick = onCardClick,
+                getIsDropTarget = getIsDropTarget,
+                onBoundsChanged = onBoundsChanged,
+                onTaskDragStart = onTaskDragStart,
+                onTaskDragChange = onTaskDragChange,
+                onTaskDragEnd = onTaskDragEnd,
+                onTaskDragCancel = onTaskDragCancel,
+            )
+        }
     }
 }
 
-data class ColumnColors(val headerColor: Color, val backgroundColor: Color, val borderColor: Color)
+private data class ColumnColors(
+    val headerColor: Color,
+    val backgroundColor: Color,
+    val borderColor: Color,
+)
 
 @Composable
-private fun KanbanColumn(
+private fun KanbanBoardStatusColumn(
     status: KanbanStatus,
     cards: List<KanbanCard>,
-    modifier: Modifier = Modifier,
     onCardClick: (KanbanCard) -> Unit,
+    modifier: Modifier = Modifier,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
     onBoundsChanged: (KanbanStatus, Rect) -> Unit = { _, _ -> },
     onTaskDragStart: (KanbanCard) -> Unit = {},
@@ -142,19 +112,16 @@ private fun KanbanColumn(
             backgroundColor = Blue50,
             borderColor = Blue200,
         )
-
         KanbanStatus.IN_PROGRESS -> stringResource(Res.string.status_In_Progress) to ColumnColors(
             headerColor = Orange600,
             backgroundColor = Yellow50,
             borderColor = Yellow300,
         )
-
         KanbanStatus.REVIEW -> stringResource(Res.string.status_review) to ColumnColors(
             headerColor = Violet500,
             backgroundColor = Violet100,
             borderColor = Violet200,
         )
-
         KanbanStatus.DONE -> stringResource(Res.string.status_Done) to ColumnColors(
             headerColor = Green600,
             backgroundColor = Green50,
@@ -166,11 +133,15 @@ private fun KanbanColumn(
     val lastBoundsHolder = remember { mutableStateOf<Rect?>(null) }
 
     Column(
-        modifier = modifier.fillMaxHeight().width(320.dp).clip(RoundedCornerShape(10.dp)).border(
-            width = 1.dp,
-            color = color.borderColor,
-            shape = RoundedCornerShape(10.dp),
-        )
+        modifier = modifier
+            .fillMaxHeight()
+            .width(320.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .border(
+                width = 1.dp,
+                color = color.borderColor,
+                shape = RoundedCornerShape(10.dp),
+            )
             .onGloballyPositioned {
                 val newBounds = it.boundsInWindow()
                 if (newBounds != lastBoundsHolder.value) {
@@ -179,14 +150,17 @@ private fun KanbanColumn(
                 }
             }
             .then(
-                if (isDropTarget) modifier.border(2.dp, Color.Black, RoundedCornerShape(12.dp)) else modifier,
+                if (isDropTarget) Modifier.border(2.dp, Color.Black, RoundedCornerShape(12.dp)) else Modifier,
             ),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().background(color = color.headerColor).padding(
-                vertical = 12.dp,
-                horizontal = 16.dp,
-            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = color.headerColor)
+                .padding(
+                    vertical = 12.dp,
+                    horizontal = 16.dp,
+                ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
@@ -226,11 +200,11 @@ private fun KanbanColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(
-                key = { it.id },
                 items = cards,
-            ) {
+                key = { it.id },
+            ) { card ->
                 KanbanCardItem(
-                    kanbanCard = it,
+                    kanbanCard = card,
                     onCardClick = onCardClick,
                     onDragStart = onTaskDragStart,
                     onDragChange = onTaskDragChange,
@@ -247,34 +221,22 @@ private fun KanbanColumn(
     heightDp = 800,
 )
 @Composable
-private fun KanbanBodyPreview() {
-    KanbanBody(
-        todoCards = listOf(
-            createTempCard(
-                id = 1,
-                boardId = 0,
-                status = KanbanStatus.TO_DO,
-            ),
-            createTempCard(
-                id = 2,
-                boardId = 0,
-                status = KanbanStatus.TO_DO,
-            ),
-        ),
-        inProgressCards = listOf(
-            createTempCard(
-                id = 3,
-                boardId = 0,
-                status = KanbanStatus.IN_PROGRESS,
+private fun KanbanBoardContentPreview() {
+    KanbanBoardContent(
+        kanbanBoard = KanbanBoard(
+            boardId = 0,
+            title = "보드",
+            cards = listOf(
+                createTempCard(KanbanStatus.TO_DO),
+                createTempCard(KanbanStatus.IN_PROGRESS),
+                createTempCard(KanbanStatus.DONE),
             ),
         ),
         onCardClick = {},
     )
 }
 
-private fun createTempCard(id: Long, boardId: Int, status: KanbanStatus) = KanbanCard(
-    id = id,
-    boardId = boardId,
+private fun createTempCard(status: KanbanStatus) = KanbanCard(
     title = "제목",
     assigneeName = "담당자",
     tags = listOf("태그"),
