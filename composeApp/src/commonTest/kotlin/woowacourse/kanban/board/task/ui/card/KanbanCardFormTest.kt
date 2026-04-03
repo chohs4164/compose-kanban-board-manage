@@ -97,5 +97,4 @@ class KanbanCardFormTest {
         )
         Assertions.assertThat(formInfo.content).isEqualTo("칸반 카드 내용")
     }
-
 }

@@ -87,11 +87,7 @@ fun KanbanBoardContent(
     }
 }
 
-private data class ColumnColors(
-    val headerColor: Color,
-    val backgroundColor: Color,
-    val borderColor: Color,
-)
+private data class ColumnColors(val headerColor: Color, val backgroundColor: Color, val borderColor: Color)
 
 @Composable
 private fun KanbanBoardStatusColumn(

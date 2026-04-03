@@ -83,10 +83,7 @@ class KanbanBoardTest {
         assertThat(searchCard).isNull()
     }
 
-    private fun createKanbanCard(
-        status: KanbanStatus,
-        id: String = "1",
-    ) = KanbanCard(
+    private fun createKanbanCard(status: KanbanStatus, id: String = "1") = KanbanCard(
         id = id,
         title = "제목",
         assigneeName = "담당자",

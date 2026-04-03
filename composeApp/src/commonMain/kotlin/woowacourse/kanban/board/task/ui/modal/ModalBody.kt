@@ -42,10 +42,7 @@ enum class AssigneeOptionType {
     MEMBER,
 }
 
-data class AssigneeOption(
-    val type: AssigneeOptionType,
-    val name: String? = null,
-) {
+data class AssigneeOption(val type: AssigneeOptionType, val name: String? = null) {
     val label: String
         get() = name ?: "없음"
 

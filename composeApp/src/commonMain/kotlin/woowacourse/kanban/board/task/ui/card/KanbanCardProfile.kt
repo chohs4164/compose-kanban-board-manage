@@ -20,10 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun KanbanCardProfile(
-    crewName: String?,
-    modifier: Modifier = Modifier,
-) {
+fun KanbanCardProfile(crewName: String?, modifier: Modifier = Modifier) {
     if (crewName != null) {
         val imageModifier = Modifier
             .size(24.dp)
