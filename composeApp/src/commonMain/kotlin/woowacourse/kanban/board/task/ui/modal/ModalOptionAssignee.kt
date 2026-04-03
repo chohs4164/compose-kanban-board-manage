@@ -20,21 +20,16 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import woowacourse.kanban.board.task.ui.board.TaskModalMode
 
 @Composable
-fun ModalOptionAssignee(
-    modifier: Modifier = Modifier,
-    name: String,
-    isExist: Boolean
-) {
+fun ModalOptionAssignee(modifier: Modifier = Modifier, name: String, isExist: Boolean) {
     Row(
         modifier = modifier.fillMaxWidth()
             .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        if(isExist){
+        if (isExist) {
             Icon(
                 modifier = Modifier.size(24.dp),
                 imageVector = Icons.Default.AccountCircle,
@@ -51,10 +46,7 @@ fun ModalOptionAssignee(
     }
 }
 
-private data class ModalOptionAssigneePreviewCase(
-    val name:String,
-    val isExist: Boolean,
-)
+private data class ModalOptionAssigneePreviewCase(val name: String, val isExist: Boolean)
 
 private class ModalOptionAssigneePreviewProvider : PreviewParameterProvider<ModalOptionAssigneePreviewCase> {
     override val values = sequenceOf(
@@ -65,16 +57,18 @@ private class ModalOptionAssigneePreviewProvider : PreviewParameterProvider<Moda
         ModalOptionAssigneePreviewCase(
             name = "다이노,",
             isExist = true,
-        )
+        ),
     )
 }
 
 @Preview
 @Composable
-private fun ModalOptionAssigneePreview(@PreviewParameter(ModalOptionAssigneePreviewProvider::class) previewCase: ModalOptionAssigneePreviewCase) {
+private fun ModalOptionAssigneePreview(
+    @PreviewParameter(ModalOptionAssigneePreviewProvider::class) previewCase: ModalOptionAssigneePreviewCase,
+) {
     ModalOptionAssignee(
         modifier = Modifier.background(Color.White),
         name = previewCase.name,
-        isExist = previewCase.isExist
+        isExist = previewCase.isExist,
     )
 }

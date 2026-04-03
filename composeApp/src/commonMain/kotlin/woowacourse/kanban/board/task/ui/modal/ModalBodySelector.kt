@@ -36,7 +36,7 @@ fun ModalSelector(title: String, modifier: Modifier = Modifier, content: LazyLis
         ModalInputTitle(title)
 
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             content()
         }
@@ -75,7 +75,7 @@ private fun ModalStatusSelectorPreview() {
 }
 
 @Preview(
-    widthDp = 1000
+    widthDp = 1000,
 )
 @Composable
 private fun ModalAssigneeSelectorPreview() {
@@ -100,7 +100,7 @@ private fun ModalAssigneeSelectorPreview() {
                     ModalOptionAssignee(
                         modifier = Modifier,
                         name = name,
-                        isExist = true
+                        isExist = true,
                     )
                 }
             }

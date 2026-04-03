@@ -87,7 +87,7 @@ fun KanbanCardItem(
         )
 
         KanbanCardProfile(
-            crewName = kanbanCard.assigneeName
+            crewName = kanbanCard.assigneeName,
         )
     }
 }

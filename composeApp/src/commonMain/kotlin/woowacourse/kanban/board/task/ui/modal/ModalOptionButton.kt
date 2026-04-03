@@ -84,7 +84,7 @@ private fun ModalOptionAssigneePreview() {
             ModalOptionAssignee(
                 modifier = Modifier,
                 name = TaskMockData.assignees[0],
-                isExist = true
+                isExist = true,
             )
         },
         isSelected = enabled,

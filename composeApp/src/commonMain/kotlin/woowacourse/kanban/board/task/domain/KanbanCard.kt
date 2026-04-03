@@ -29,9 +29,11 @@ data class KanbanCard(
             "해당 상태로 옮길 수 없습니다."
         }
         require(
-            !(status == KanbanStatus.TO_DO &&
+            !(
+                status == KanbanStatus.TO_DO &&
                     next == KanbanStatus.IN_PROGRESS &&
-                    assigneeName == null),
+                    assigneeName == null
+                ),
         ) {
             "담당자를 지정해야 상태를 옮길 수 있습니다."
         }

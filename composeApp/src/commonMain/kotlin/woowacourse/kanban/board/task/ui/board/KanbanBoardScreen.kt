@@ -131,7 +131,6 @@ fun KanbanBoardScreen(
         else -> ""
     }
 
-
     // 칸반 보드
     Scaffold(
         modifier = modifier,
