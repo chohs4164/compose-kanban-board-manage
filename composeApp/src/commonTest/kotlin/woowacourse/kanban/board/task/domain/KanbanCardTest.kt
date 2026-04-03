@@ -5,10 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class KanbanCardTest {
-    private fun createCard(
-        status: KanbanStatus,
-        assigneeName: String? = "담당자 1",
-    ): KanbanCard {
+    private fun createCard(status: KanbanStatus, assigneeName: String? = "담당자 1"): KanbanCard {
         return KanbanCard(
             title = "칸반제목 1",
             assigneeName = assigneeName,
@@ -159,7 +156,7 @@ class KanbanCardTest {
     }
 
     @Test
-    fun `'ToDo' 상태의 'KanbanCard'는 담당자 미지정을 허용한다`(){
+    fun `'ToDo' 상태의 'KanbanCard'는 담당자 미지정을 허용한다`() {
         val kanbanCard = createCard(
             status = KanbanStatus.TO_DO,
             assigneeName = null,
