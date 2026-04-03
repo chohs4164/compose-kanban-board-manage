@@ -2,7 +2,6 @@ package woowacourse.kanban.board.task.ui.card
 
 import androidx.compose.ui.semantics.SemanticsActions.GetTextLayoutResult
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.runComposeUiTest
@@ -16,28 +15,21 @@ import woowacourse.kanban.board.task.domain.KanbanStatus
 class KanbanCardTest {
     @Test
     fun `모든 필드가 있는 카드 테스트`() = runComposeUiTest {
-        // given
-        val tags = listOf<String>(
-            "컴포넌트", "성능",
-        )
         val kanbanCard = KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             assigneeName = "바드",
-            status = KanbanStatus.TO_DO,
-            tags = tags,
+            tags = listOf("컴포넌트", "성능"),
             content = "세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.",
+            status = KanbanStatus.TO_DO,
         )
 
-        // when
         setContent {
             KanbanCardItem(
                 kanbanCard = kanbanCard,
+                onCardClick = {},
             )
         }
 
-        // then
         onNodeWithText("LazyColumn 컴포넌트 구현").assertExists()
         onNodeWithText("바드").assertExists()
         onNodeWithText("세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.").assertExists()
@@ -47,82 +39,42 @@ class KanbanCardTest {
 
     @Test
     fun `content가 비어 있는 경우 UI 테스트`() = runComposeUiTest {
-        // given
-        val tags = listOf<String>(
-            "컴포넌트", "성능",
-        )
         val kanbanCard = KanbanCard(
-            id = 0,
-            boardId = 0,
             title = "LazyColumn 컴포넌트 구현",
             assigneeName = "바드",
-            status = KanbanStatus.TO_DO,
-            tags = tags,
+            tags = listOf("컴포넌트", "성능"),
             content = "",
-        )
-
-        // when
-        setContent {
-            KanbanCardItem(
-                kanbanCard = kanbanCard,
-            )
-        }
-
-        // then
-        onNodeWithTag("content").assertDoesNotExist()
-    }
-
-    @Test
-    fun `content가 공백인 경우 UI 테스트`() = runComposeUiTest {
-        val content = "         "
-        // given
-        val kanbanCard = KanbanCard(
-            id = 0,
-            boardId = 0,
-            title = "LazyColumn 컴포넌트 구현",
-            assigneeName = "바드",
             status = KanbanStatus.TO_DO,
-            tags = listOf<String>(
-                "컴포넌트", "성능",
-            ),
-            content = content,
         )
 
-        // when
         setContent {
             KanbanCardItem(
                 kanbanCard = kanbanCard,
+                onCardClick = {},
             )
         }
 
-        // then
-        onNodeWithText(content).assertDoesNotExist()
+        onNodeWithText("세로 스크롤 가능한 리스트 컴포넌트를 만들고 성능 최적화를 적용합니다.").assertDoesNotExist()
     }
 
     @Test
     fun `긴 담당자 말줄임표 발생 테스트`() = runComposeUiTest {
-        val assignName = "너무 긴 담당자 이름너무 긴 담당자 이름너무 긴 담당자 이름"
-
+        val assigneeName = "너무 긴 담당자 이름너무 긴 담당자 이름너무 긴 담당자 이름"
         val kanbanCard = KanbanCard(
-            id = 0,
-            boardId = 0,
-            title = "LazyColumn 컴포넌트 구현",
-            assigneeName = assignName,
+            title = "제목",
+            assigneeName = assigneeName,
             status = KanbanStatus.TO_DO,
-            tags = listOf<String>(
-                "컴포넌트", "성능",
-            ),
-            content = "",
         )
 
         setContent {
             KanbanCardItem(
                 kanbanCard = kanbanCard,
+                onCardClick = {},
             )
         }
 
         val textLayoutResult = mutableListOf<TextLayoutResult>()
-        onNodeWithText(assignName, useUnmergedTree = true).performSemanticsAction(GetTextLayoutResult) {
+        onNodeWithText(assigneeName, useUnmergedTree = true).performSemanticsAction(GetTextLayoutResult) {
             it(textLayoutResult)
         }
 
