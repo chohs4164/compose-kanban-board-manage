@@ -99,12 +99,21 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
 
                 draggedTask?.let { task ->
                     if (targetStatus != null && task.status != targetStatus) {
-                        kanbanProject = kanbanProject.updateCardStatus(task.id, targetStatus)
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = "태스크가 이동되었습니다.",
-                                duration = SnackbarDuration.Short,
-                            )
+                        try {
+                            kanbanProject = kanbanProject.updateCardStatus(task.id, targetStatus)
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "태스크가 이동되었습니다.",
+                                    duration = SnackbarDuration.Short,
+                                )
+                            }
+                        } catch (e: IllegalArgumentException) {
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = e.message ?: "상태를 변경할 수 없습니다.",
+                                    duration = SnackbarDuration.Short,
+                                )
+                            }
                         }
                     }
                 }
