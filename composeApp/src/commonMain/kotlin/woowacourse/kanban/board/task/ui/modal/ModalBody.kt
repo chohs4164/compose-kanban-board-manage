@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -35,6 +35,21 @@ import woowacourse.kanban.board.theme.Blue50
 import woowacourse.kanban.board.theme.Blue700
 import woowacourse.kanban.board.theme.Indigo50
 import woowacourse.kanban.board.theme.Indigo500
+
+enum class AssigneeOptionType {
+    NONE,
+    MEMBER,
+}
+
+data class AssigneeOption(
+    val type: AssigneeOptionType,
+    val name: String? = null,
+) {
+    val label: String
+        get() = name ?: "없음"
+    val hasIcon: Boolean
+        get() = type == AssigneeOptionType.MEMBER
+}
 
 @Composable
 fun ModalBody(
@@ -117,30 +132,39 @@ fun ModalBody(
             },
         )
 
+
         // 담당자
+        val selectedStatus = KanbanStatus.entries[state.status];
+        val assigneeOptions = if (selectedStatus == KanbanStatus.TO_DO) {
+            listOf(AssigneeOption(AssigneeOptionType.NONE)) +
+                    assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
+        } else {
+            assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
+        }
+
         ModalSelector(
             title = stringResource(Res.string.label_assignee),
             content = {
-                itemsIndexed(
-                    assignee,
-                ) { id, name ->
+                items(assigneeOptions) { option ->
                     ModalOptionButton(
                         modifier = Modifier.height(68.dp),
                         onClick = {
-                            state.assignee = id
+                            state.assignee = option
                         },
-                        isSelected = state.assignee == id,
+                        isSelected = state.assignee == option,
                         selectedContainerColor = Indigo50,
                         selectedBorderColor = Indigo500,
                     ) {
                         ModalOptionAssignee(
                             modifier = Modifier,
-                            name = name,
+                            name = option.label,
+                            isExist = option.hasIcon,
                         )
                     }
                 }
             },
         )
+
 
         // 취소 / 생성 버튼
         ModalAction(
@@ -151,8 +175,15 @@ fun ModalBody(
             onAddOrEditClick = {
                 if (state.validate()) {
                     when (modalMode) {
-                        TaskModalMode.CREATE -> onCreate(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
-                        TaskModalMode.EDIT -> onEdit(state.toKanbanCardForm(assignee), state.toKanbanCardStatus())
+                        TaskModalMode.CREATE -> onCreate(
+                            state.toKanbanCardForm(),
+                            state.toKanbanCardStatus(),
+                        )
+
+                        TaskModalMode.EDIT -> onEdit(
+                            state.toKanbanCardForm(),
+                            state.toKanbanCardStatus(),
+                        )
                     }
                 }
             },

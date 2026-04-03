@@ -4,9 +4,9 @@ data class KanbanCard(
     val id: Long,
     val boardId: Int,
     val title: String,
-    val status: KanbanStatus,
-    val assigneeName: String,
     val content: String = "",
+    val status: KanbanStatus,
+    val assigneeName: String?,
     val tags: List<String> = emptyList(),
 ) {
     companion object {
@@ -18,6 +18,7 @@ data class KanbanCard(
                 content = form.content,
                 status = status,
                 assigneeName = form.assigneeName,
+                tags = form.tags,
             )
         }
     }
@@ -26,7 +27,7 @@ data class KanbanCard(
         return copy(status = status)
     }
 
-    fun update(form: KanbanCardForm,status: KanbanStatus): KanbanCard{
+    fun update(form: KanbanCardForm, status: KanbanStatus): KanbanCard {
         return copy(
             title = form.title,
             content = form.content,
