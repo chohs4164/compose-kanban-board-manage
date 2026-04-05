@@ -14,8 +14,9 @@ data class KanbanProject(val projectTitle: String, val boards: List<KanbanBoard>
         return copy(boards = newBoards)
     }
 
-    fun addBoardCard(boardId: Int, card: KanbanCard): KanbanProject? {
+    fun addCard(boardId: Int, form: KanbanCardForm, status: KanbanStatus): KanbanProject? {
         val targetBoard = getBoard(boardId) ?: return null
+        val card = KanbanCard.create(form = form, status = status)
         val addBoard = targetBoard.addCard(card)
         val newBoards = boards.map {
             if (it.boardId == boardId) addBoard else it

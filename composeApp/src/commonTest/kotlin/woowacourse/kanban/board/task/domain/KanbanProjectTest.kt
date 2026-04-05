@@ -62,17 +62,19 @@ class KanbanProjectTest {
             ),
         )
 
-        val newProject = project.addBoardCard(
-            0,
-            KanbanCard(
+        val newProject = project.addCard(
+            boardId = 0,
+            form = KanbanCardForm(
                 title = "제목",
                 assigneeName = "담당자",
-                status = KanbanStatus.TO_DO,
             ),
+            status = KanbanStatus.TO_DO,
         )
 
         assertThat(newProject).isNotNull()
         assertThat(newProject?.getBoard(0)?.cards).hasSize(1)
+        assertThat(newProject?.getBoard(0)?.cards?.single()?.title).isEqualTo("제목")
+        assertThat(newProject?.getBoard(0)?.cards?.single()?.id).isNotBlank()
         assertThat(project.getBoard(0)?.cards).isEmpty()
     }
 
