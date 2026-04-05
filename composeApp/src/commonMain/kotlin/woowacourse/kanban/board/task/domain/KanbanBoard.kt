@@ -1,6 +1,10 @@
 package woowacourse.kanban.board.task.domain
 
 data class KanbanBoard(val boardId: Int, val title: String, val cards: List<KanbanCard> = emptyList()) {
+    init {
+        require(boardId >= 0) { "보드 ID는 0 이상이어야 합니다." }
+    }
+
     val totalCount: Int get() = cards.size
     val doneCount: Int get() = cards.count { it.status == KanbanStatus.DONE }
 

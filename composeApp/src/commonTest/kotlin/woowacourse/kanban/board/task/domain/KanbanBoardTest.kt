@@ -1,9 +1,20 @@
 package woowacourse.kanban.board.task.domain
 
+import kotlin.test.assertFailsWith
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
 class KanbanBoardTest {
+    @Test
+    fun `boardId가 음수이면 KanbanBoard를 생성할 수 없다`() {
+        assertFailsWith<IllegalArgumentException> {
+            KanbanBoard(
+                boardId = -1,
+                title = "보드",
+            )
+        }
+    }
+
     @Test
     fun `칸반 카드를 추가하면 새로운 보드를 반환한다`() {
         val board = KanbanBoard(
