@@ -8,11 +8,11 @@ import woowacourse.kanban.board.task.domain.KanbanCardError
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
 class ModalCreateFormStateTest {
-    private lateinit var state: ModalCreateFormState
+    private lateinit var state: ModalFormState
 
     @BeforeTest
     fun setUp() {
-        state = ModalCreateFormState()
+        state = ModalFormState()
     }
 
     @Test
@@ -96,7 +96,7 @@ class ModalCreateFormStateTest {
             assigneeName = null,
         )
 
-        val restoredState = ModalCreateFormState.from(card)
+        val restoredState = ModalFormState.from(card)
 
         assertThat(restoredState.assignee.type).isEqualTo(AssigneeOptionType.NONE)
         assertThat(restoredState.assignee.name).isNull()
@@ -110,7 +110,7 @@ class ModalCreateFormStateTest {
             assigneeName = "조디악",
         )
 
-        val restoredState = ModalCreateFormState.from(card)
+        val restoredState = ModalFormState.from(card)
 
         assertThat(restoredState.assignee.type).isEqualTo(AssigneeOptionType.MEMBER)
         assertThat(restoredState.assignee.name).isEqualTo("조디악")

@@ -33,7 +33,7 @@ fun ModalForm(
     onDelete: () -> Unit = {},
 ) {
     val state = remember(editingCard?.id) {
-        editingCard?.let { ModalCreateFormState.from(it) } ?: ModalCreateFormState()
+        editingCard?.let { ModalFormState.from(it) } ?: ModalFormState()
     }
 
     Dialog(

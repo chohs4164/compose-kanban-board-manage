@@ -12,7 +12,7 @@ import woowacourse.kanban.board.task.domain.KanbanCardError
 import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
-class ModalCreateFormState {
+class ModalFormState {
     var title by mutableStateOf("")
     var content by mutableStateOf("")
     var tag by mutableStateOf("")
@@ -56,8 +56,8 @@ class ModalCreateFormState {
     fun toKanbanCardStatus(): KanbanStatus = KanbanStatus.entries[status]
 
     companion object {
-        fun from(card: KanbanCard): ModalCreateFormState {
-            return ModalCreateFormState().apply {
+        fun from(card: KanbanCard): ModalFormState {
+            return ModalFormState().apply {
                 title = card.title
                 content = card.content
                 tag = card.tags.joinToString(",")

@@ -55,7 +55,7 @@ fun ModalBody(
     modifier: Modifier = Modifier,
     modalMode: TaskModalMode,
     assignee: List<String>,
-    state: ModalCreateFormState,
+    state: ModalFormState,
     onDismissRequest: () -> Unit,
     onCreate: (KanbanCardForm, KanbanStatus) -> Unit,
     onEdit: (KanbanCardForm, KanbanStatus) -> Unit,
@@ -200,7 +200,7 @@ private fun ModalBodyPreview(
     @PreviewParameter(ModalBodyPreviewParameterProvider::class)
     taskModalMode: TaskModalMode,
 ) {
-    val state = remember { ModalCreateFormState() }
+    val state = remember { ModalFormState() }
     ModalBody(
         modifier = Modifier.background(Color.White),
         modalMode = taskModalMode,
