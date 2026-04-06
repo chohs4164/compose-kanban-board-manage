@@ -40,8 +40,8 @@ enum class TaskModalMode {
 @Composable
 fun KanbanBoardScreen(
     kanbanBoard: KanbanBoard,
-    onAddCard: (KanbanCard, KanbanStatus) -> Unit,
-    onEditCard: (String, KanbanCard, KanbanStatus) -> Unit,
+    onAddCard: (KanbanCard) -> Unit,
+    onEditCard: (String, KanbanCard) -> Unit,
     onDeleteCard: (String) -> Unit,
     modifier: Modifier = Modifier,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
@@ -64,8 +64,8 @@ fun KanbanBoardScreen(
                 modalMode = taskModalMode!!,
                 assignee = TaskMockData.assignees,
                 onDismissRequest = { isShowAddTaskModal = false },
-                onCreate = { form, status ->
-                    onAddCard(form, status)
+                onCreate = { card ->
+                    onAddCard(card)
                     isShowAddTaskModal = false
                     scope.launch {
                         snackbarHostState.showSnackbar(
@@ -77,15 +77,16 @@ fun KanbanBoardScreen(
                 modifier = Modifier.width(672.dp).height(820.dp),
             )
         }
+
         TaskModalMode.EDIT -> if (isShowEditTaskModal) {
             ModalForm(
                 editingCard = editingCard,
                 modalMode = taskModalMode!!,
                 assignee = TaskMockData.assignees,
                 onDismissRequest = { isShowEditTaskModal = false },
-                onEdit = { form, status ->
+                onEdit = { form ->
                     editingCard?.let { card ->
-                        onEditCard(card.id, form, status)
+                        onEditCard(card.id, form)
                     }
                     isShowEditTaskModal = false
                     scope.launch {
@@ -118,6 +119,7 @@ fun KanbanBoardScreen(
                 },
             )
         }
+
         null -> Unit
     }
 
@@ -182,8 +184,8 @@ fun KanbanBoardScreen(
 private fun KanbanBoardScreenPreview() {
     val scope = rememberCoroutineScope()
     KanbanBoardScreen(
-        onAddCard = { _, _ -> },
-        onEditCard = { _, _, _ -> },
+        onAddCard = { _ -> },
+        onEditCard = { _, _ -> },
         onDeleteCard = {},
         kanbanBoard = KanbanBoard(
             boardId = 0,

@@ -57,8 +57,8 @@ fun ModalBody(
     assignee: List<String>,
     state: ModalFormState,
     onDismissRequest: () -> Unit,
-    onCreate: (KanbanCard, KanbanStatus) -> Unit,
-    onEdit: (KanbanCard, KanbanStatus) -> Unit,
+    onCreate: (KanbanCard) -> Unit,
+    onEdit: (KanbanCard) -> Unit,
     onDelete: () -> Unit,
 ) {
     Column(
@@ -170,11 +170,9 @@ fun ModalBody(
                     when (modalMode) {
                         TaskModalMode.CREATE -> onCreate(
                             state.toKanbanCard(),
-                            state.toKanbanCardStatus(),
                         )
                         TaskModalMode.EDIT -> onEdit(
                             state.toKanbanCard(),
-                            state.toKanbanCardStatus(),
                         )
                     }
                 }
@@ -207,8 +205,8 @@ private fun ModalBodyPreview(
         state = state,
         assignee = TaskMockData.assignees,
         onDismissRequest = {},
-        onCreate = { _, _ -> },
-        onEdit = { _, _ -> },
+        onCreate = { _ -> },
+        onEdit = { _ -> },
         onDelete = {},
     )
 }

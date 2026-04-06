@@ -16,7 +16,7 @@ data class KanbanProject(val projectTitle: String, val boards: List<KanbanBoard>
 
     fun addCard(boardId: Int, card: KanbanCard): KanbanProject? {
         val targetBoard = getBoard(boardId) ?: return null
-        val card = KanbanCard.create(form = card, status = card.status)
+        val card = KanbanCard.create(card = card)
         val addBoard = targetBoard.addCard(card)
         val newBoards = boards.map {
             if (it.boardId == boardId) addBoard else it
@@ -24,9 +24,9 @@ data class KanbanProject(val projectTitle: String, val boards: List<KanbanBoard>
         return copy(boards = newBoards)
     }
 
-    fun updateCard(boardId: Int, cardId: String, form: KanbanCard, status: KanbanStatus): KanbanProject? {
+    fun updateCard(boardId: Int, cardId: String, card: KanbanCard): KanbanProject? {
         val targetBoard = getBoard(boardId) ?: return null
-        val updateBoard = targetBoard.updateCard(cardId = cardId, form = form, status = status) ?: return null
+        val updateBoard = targetBoard.updateCard(cardId = cardId, card = card) ?: return null
         val newBoards = boards.map {
             if (it.boardId == boardId) updateBoard else it
         }

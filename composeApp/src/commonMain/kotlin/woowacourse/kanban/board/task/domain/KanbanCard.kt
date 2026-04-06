@@ -40,13 +40,13 @@ data class KanbanCard(
         return copy(status = next)
     }
 
-    fun update(form: KanbanCard, status: KanbanStatus): KanbanCard {
+    fun update(card: KanbanCard): KanbanCard {
         return copy(
-            title = form.title,
-            content = form.content,
-            tags = form.tags,
-            status = status,
-            assigneeName = form.assigneeName,
+            title = card.title,
+            content = card.content,
+            tags = card.tags,
+            status = card.status,
+            assigneeName = card.assigneeName,
         )
     }
 
@@ -60,13 +60,13 @@ data class KanbanCard(
         const val MAX_TAG_COUNT = 5
         const val MAX_TAG_LENGTH = 5
 
-        fun create(form: KanbanCard, status: KanbanStatus): KanbanCard {
+        fun create(card: KanbanCard): KanbanCard {
             return KanbanCard(
-                title = form.title,
-                content = form.content,
-                status = status,
-                assigneeName = form.assigneeName,
-                tags = form.tags,
+                title = card.title,
+                content = card.content,
+                status = card.status,
+                assigneeName = card.assigneeName,
+                tags = card.tags,
             )
         }
 
