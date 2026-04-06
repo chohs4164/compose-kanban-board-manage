@@ -23,7 +23,7 @@ class ModalCreateFormTest {
                     modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
-                    onCreate = { _, _ -> },
+                    onCreate = { _, _, _, _, _ -> },
                 )
             }
         }
@@ -44,7 +44,7 @@ class ModalCreateFormTest {
                     modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
-                    onCreate = { _, _ -> },
+                    onCreate = { _, _, _, _, _ -> },
                 )
             }
         }
@@ -66,7 +66,7 @@ class ModalCreateFormTest {
                     modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
-                    onCreate = { _, _ -> },
+                    onCreate = { _, _, _, _, _ -> },
                 )
             }
         }
@@ -88,7 +88,7 @@ class ModalCreateFormTest {
                     modalMode = woowacourse.kanban.board.task.ui.board.TaskModalMode.CREATE,
                     assignee = TaskMockData.assignees,
                     onDismissRequest = {},
-                    onCreate = { _, _ -> },
+                    onCreate = { _, _, _, _, _ -> },
                 )
             }
         }

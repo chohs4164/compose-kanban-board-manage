@@ -38,8 +38,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
                     boardId = 0,
@@ -61,8 +61,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
                     boardId = 0,
@@ -88,8 +88,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
                     boardId = 0,
@@ -113,8 +113,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = KanbanBoard(
                     boardId = 0,
@@ -141,8 +141,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {
                     throw IllegalArgumentException("해당 상태에서는 태스크 삭제가 불가합니다.")
                 },
@@ -163,8 +163,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = createBoardWithCard(KanbanStatus.TO_DO),
                 snackbarHostState = remember { SnackbarHostState() },
@@ -183,8 +183,8 @@ class KanbanBoardScreenTest {
         setContent {
             val scope = rememberCoroutineScope()
             KanbanBoardScreen(
-                onAddCard = { _ -> },
-                onEditCard = { _, _ -> },
+                onAddCard = { _, _, _, _, _ -> },
+                onEditCard = { _, _, _, _, _, _ -> },
                 onDeleteCard = {},
                 kanbanBoard = createBoardWithCard(KanbanStatus.TO_DO),
                 snackbarHostState = remember { SnackbarHostState() },

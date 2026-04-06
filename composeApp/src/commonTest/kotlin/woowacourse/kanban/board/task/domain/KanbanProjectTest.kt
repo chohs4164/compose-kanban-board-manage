@@ -64,11 +64,11 @@ class KanbanProjectTest {
 
         val newProject = project.addCard(
             boardId = 0,
-            card = KanbanCard(
-                title = "제목",
-                assigneeName = "담당자",
-                status = KanbanStatus.TO_DO
-            ),
+            title = "제목",
+            content = "",
+            assigneeName = "담당자",
+            tags = listOf("컴포넌트","성능"),
+            status = KanbanStatus.TO_DO
         )
 
         assertThat(newProject).isNotNull()
