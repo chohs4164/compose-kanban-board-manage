@@ -40,8 +40,21 @@ enum class TaskModalMode {
 @Composable
 fun KanbanBoardScreen(
     kanbanBoard: KanbanBoard,
-    onAddCard: (KanbanCard) -> Unit,
-    onEditCard: (String, KanbanCard) -> Unit,
+    onAddCard: (
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit,
+    onEditCard: (
+        id: String,
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit,
     onDeleteCard: (String) -> Unit,
     modifier: Modifier = Modifier,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
@@ -64,8 +77,14 @@ fun KanbanBoardScreen(
                 modalMode = taskModalMode!!,
                 assignee = TaskMockData.assignees,
                 onDismissRequest = { isShowAddTaskModal = false },
-                onCreate = { card ->
-                    onAddCard(card)
+                onCreate = { title, content, assigneeName, tags, status ->
+                    onAddCard(
+                        title,
+                        content,
+                        assigneeName,
+                        tags,
+                        status,
+                    )
                     isShowAddTaskModal = false
                     scope.launch {
                         snackbarHostState.showSnackbar(
@@ -84,9 +103,16 @@ fun KanbanBoardScreen(
                 modalMode = taskModalMode!!,
                 assignee = TaskMockData.assignees,
                 onDismissRequest = { isShowEditTaskModal = false },
-                onEdit = { form ->
+                onEdit = { title, content, assigneeName, tags, status ->
                     editingCard?.let { card ->
-                        onEditCard(card.id, form)
+                        onEditCard(
+                            card.id,
+                            title,
+                            content,
+                            assigneeName,
+                            tags,
+                            status,
+                        )
                     }
                     isShowEditTaskModal = false
                     scope.launch {
@@ -184,8 +210,8 @@ fun KanbanBoardScreen(
 private fun KanbanBoardScreenPreview() {
     val scope = rememberCoroutineScope()
     KanbanBoardScreen(
-        onAddCard = { _ -> },
-        onEditCard = { _, _ -> },
+        onAddCard = { _, _, _, _, _ -> },
+        onEditCard = { _, _, _, _, _, _ -> },
         onDeleteCard = {},
         kanbanBoard = KanbanBoard(
             boardId = 0,

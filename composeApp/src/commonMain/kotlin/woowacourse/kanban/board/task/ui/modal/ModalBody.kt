@@ -57,8 +57,20 @@ fun ModalBody(
     assignee: List<String>,
     state: ModalFormState,
     onDismissRequest: () -> Unit,
-    onCreate: (KanbanCard) -> Unit,
-    onEdit: (KanbanCard) -> Unit,
+    onCreate: (
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit,
+    onEdit: (
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit,
     onDelete: () -> Unit,
 ) {
     Column(
@@ -128,7 +140,7 @@ fun ModalBody(
         val selectedStatus = KanbanStatus.entries[state.status]
         val assigneeOptions = if (selectedStatus == KanbanStatus.TO_DO) {
             listOf(AssigneeOption(AssigneeOptionType.NONE)) +
-                assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
+                    assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         } else {
             assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         }
@@ -167,12 +179,34 @@ fun ModalBody(
             onDismissRequest = onDismissRequest,
             onAddOrEditClick = {
                 if (state.validate()) {
+                    val tags = if (state.tag.isEmpty()) {
+                        emptyList()
+                    } else {
+                        state.tag.split(",").map { it.trim() }
+                    }
+
+                    val assigneeName = when (state.assignee.type) {
+                        AssigneeOptionType.NONE -> null
+                        AssigneeOptionType.MEMBER -> state.assignee.name
+                    }
+
+                    val status = state.toKanbanCardStatus()
+
                     when (modalMode) {
                         TaskModalMode.CREATE -> onCreate(
-                            state.toKanbanCard(),
+                            state.title,
+                            state.content,
+                            assigneeName,
+                            tags,
+                            status,
                         )
+
                         TaskModalMode.EDIT -> onEdit(
-                            state.toKanbanCard(),
+                            state.title,
+                            state.content,
+                            assigneeName,
+                            tags,
+                            status,
                         )
                     }
                 }
@@ -205,8 +239,8 @@ private fun ModalBodyPreview(
         state = state,
         assignee = TaskMockData.assignees,
         onDismissRequest = {},
-        onCreate = { _ -> },
-        onEdit = { _ -> },
+        onCreate = { _, _, _, _, _ -> },
+        onEdit = { _, _, _, _, _ -> },
         onDelete = {},
     )
 }

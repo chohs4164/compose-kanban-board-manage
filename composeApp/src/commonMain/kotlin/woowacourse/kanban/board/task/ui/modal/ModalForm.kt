@@ -27,8 +27,20 @@ fun ModalForm(
     modifier: Modifier = Modifier,
     assignee: List<String>,
     onDismissRequest: () -> Unit,
-    onCreate: (KanbanCard) -> Unit = { _ -> },
-    onEdit: (KanbanCard) -> Unit = { _ -> },
+    onCreate: (
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit = { _, _, _, _, _ -> },
+    onEdit: (
+        title: String,
+        content: String,
+        assigneeName: String?,
+        tags: List<String>,
+        status: KanbanStatus,
+    ) -> Unit = { _, _, _, _, _ -> },
     onDelete: () -> Unit = {},
 ) {
     val state = remember(editingCard?.id) {
@@ -89,6 +101,5 @@ private fun ModalFormPreview(
         modalMode = taskModalMode,
         assignee = TaskMockData.assignees,
         onDismissRequest = {},
-        onCreate = { _-> },
     )
 }

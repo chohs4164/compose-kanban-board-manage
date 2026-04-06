@@ -61,18 +61,26 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
             )
             KanbanBoardScreen(
                 kanbanBoard = board,
-                onAddCard = { card ->
+                onAddCard = { title, content, assigneeName, tags, status ->
                     val newProject = kanbanProject.addCard(
                         boardId = selectedBoardId,
-                        card = card,
+                        title = title,
+                        content = content,
+                        assigneeName = assigneeName,
+                        tags = tags,
+                        status = status,
                     )
                     if (newProject != null) kanbanProject = newProject
                 },
-                onEditCard = { id, card ->
+                onEditCard = { id, title, content, assigneeName, tags, status ->
                     val newProject = kanbanProject.updateCard(
                         boardId = selectedBoardId,
                         cardId = id,
-                        card = card,
+                        title = title,
+                        content = content,
+                        assigneeName = assigneeName,
+                        tags = tags,
+                        status = status,
                     )
                     if (newProject != null) kanbanProject = newProject
                 },
