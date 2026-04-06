@@ -48,7 +48,7 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
         kanbanBoard = kanbanProject.getBoard(selectedBoardId)
     }
 
-    if (kanbanBoard != null) {
+    kanbanBoard?.let { board ->
         Row(modifier = modifier) {
             KanbanProjectSideBar(
                 modifier = Modifier.fillMaxHeight(),
@@ -60,7 +60,7 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
                 },
             )
             KanbanBoardScreen(
-                kanbanBoard = kanbanBoard,
+                kanbanBoard = board,
                 onAddCard = { form, status ->
                     val newProject = kanbanProject.addCard(
                         boardId = selectedBoardId,
