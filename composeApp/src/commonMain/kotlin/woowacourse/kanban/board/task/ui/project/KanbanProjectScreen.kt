@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -17,6 +18,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
+import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanProject
 import woowacourse.kanban.board.task.domain.KanbanStatus
@@ -40,7 +42,11 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    val kanbanBoard = kanbanProject.getBoard(selectedBoardId)
+    var kanbanBoard by remember { mutableStateOf<KanbanBoard?>(null)}
+
+    LaunchedEffect(selectedBoardId){
+        kanbanBoard = kanbanProject.getBoard(selectedBoardId)
+    }
 
     if (kanbanBoard != null) {
         Row(modifier = modifier) {
