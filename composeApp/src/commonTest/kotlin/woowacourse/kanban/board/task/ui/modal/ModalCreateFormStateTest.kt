@@ -83,7 +83,7 @@ class ModalCreateFormStateTest {
         state.title = "태스크 제목"
         state.assignee = AssigneeOption(AssigneeOptionType.NONE)
 
-        val form = state.toKanbanCardForm()
+        val form = state.toKanbanCard()
 
         assertThat(form.assigneeName).isNull()
     }
