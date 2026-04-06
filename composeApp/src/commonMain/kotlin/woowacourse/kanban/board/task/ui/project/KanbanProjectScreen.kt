@@ -42,9 +42,9 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    var kanbanBoard by remember { mutableStateOf<KanbanBoard?>(null)}
+    var kanbanBoard by remember { mutableStateOf<KanbanBoard?>(null) }
 
-    LaunchedEffect(selectedBoardId){
+    LaunchedEffect(selectedBoardId) {
         kanbanBoard = kanbanProject.getBoard(selectedBoardId)
     }
 
@@ -61,11 +61,10 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
             )
             KanbanBoardScreen(
                 kanbanBoard = board,
-                onAddCard = { form, status ->
+                onAddCard = { card, status ->
                     val newProject = kanbanProject.addCard(
                         boardId = selectedBoardId,
-                        form = form,
-                        status = status,
+                        card = card,
                     )
                     if (newProject != null) kanbanProject = newProject
                 },

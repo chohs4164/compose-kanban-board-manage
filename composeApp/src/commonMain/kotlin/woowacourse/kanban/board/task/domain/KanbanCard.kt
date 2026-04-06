@@ -11,10 +11,16 @@ data class KanbanCard(
     val tags: List<String> = emptyList(),
 ) {
     init {
+        // 제목 검증
         val titleError = validateTitle(title)
         require(titleError == null) { "칸반 카드의 제목이 올바르지 않습니다. - 제목: $title" }
+
+        // 태그 검증
         val tagError = validateTags(tags)
         require(tagError == null) { "칸반 카드의 태그 형식이 올바르지 않습니다. - 에러 타입: $tagError, tags: $tags" }
+
+        // 카드 검증
+        require(assigneeName?.isNotBlank() ?: true) { "칸반 카드의 담당자는 공백이거나 비어있을수 없습니다." }
     }
 
     fun updateStatus(next: KanbanStatus): KanbanCard {
@@ -34,7 +40,7 @@ data class KanbanCard(
         return copy(status = next)
     }
 
-    fun update(form: KanbanCardForm, status: KanbanStatus): KanbanCard {
+    fun update(form: KanbanCard, status: KanbanStatus): KanbanCard {
         return copy(
             title = form.title,
             content = form.content,
@@ -54,7 +60,7 @@ data class KanbanCard(
         const val MAX_TAG_COUNT = 5
         const val MAX_TAG_LENGTH = 5
 
-        fun create(form: KanbanCardForm, status: KanbanStatus): KanbanCard {
+        fun create(form: KanbanCard, status: KanbanStatus): KanbanCard {
             return KanbanCard(
                 title = form.title,
                 content = form.content,

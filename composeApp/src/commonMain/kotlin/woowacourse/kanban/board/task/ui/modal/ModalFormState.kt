@@ -9,7 +9,6 @@ import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanCard.Companion.validateTags
 import woowacourse.kanban.board.task.domain.KanbanCard.Companion.validateTitle
 import woowacourse.kanban.board.task.domain.KanbanCardError
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 
 class ModalFormState {
@@ -40,12 +39,13 @@ class ModalFormState {
         return validTitle == null && validTag == null
     }
 
-    fun toKanbanCardForm(): KanbanCardForm {
+    fun toKanbanCard(): KanbanCard {
         val tags = if (tag.isEmpty()) emptyList() else tag.split(",").map { it.trim() }
-        return KanbanCardForm(
+        return KanbanCard(
             title = title,
             content = content,
             tags = tags,
+            status = KanbanStatus.entries[status],
             assigneeName = when (assignee.type) {
                 AssigneeOptionType.NONE -> null
                 AssigneeOptionType.MEMBER -> assignee.name

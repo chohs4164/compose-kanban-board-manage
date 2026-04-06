@@ -25,7 +25,7 @@ data class KanbanBoard(val boardId: Int, val title: String, val cards: List<Kanb
         return copy(cards = newCards)
     }
 
-    fun updateCard(cardId: String, form: KanbanCardForm, status: KanbanStatus): KanbanBoard? {
+    fun updateCard(cardId: String, form: KanbanCard, status: KanbanStatus): KanbanBoard? {
         val targetCard = getCard(cardId) ?: return null
         val newCard = targetCard.update(form, status)
 

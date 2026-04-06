@@ -28,7 +28,7 @@ import kanbanboard.composeapp.generated.resources.place_holder_input_tags
 import kanbanboard.composeapp.generated.resources.place_holder_input_title
 import kanbanboard.composeapp.generated.resources.supporting_text_tags
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.task.domain.KanbanCardForm
+import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
@@ -57,8 +57,8 @@ fun ModalBody(
     assignee: List<String>,
     state: ModalFormState,
     onDismissRequest: () -> Unit,
-    onCreate: (KanbanCardForm, KanbanStatus) -> Unit,
-    onEdit: (KanbanCardForm, KanbanStatus) -> Unit,
+    onCreate: (KanbanCard, KanbanStatus) -> Unit,
+    onEdit: (KanbanCard, KanbanStatus) -> Unit,
     onDelete: () -> Unit,
 ) {
     Column(
@@ -169,11 +169,11 @@ fun ModalBody(
                 if (state.validate()) {
                     when (modalMode) {
                         TaskModalMode.CREATE -> onCreate(
-                            state.toKanbanCardForm(),
+                            state.toKanbanCard(),
                             state.toKanbanCardStatus(),
                         )
                         TaskModalMode.EDIT -> onEdit(
-                            state.toKanbanCardForm(),
+                            state.toKanbanCard(),
                             state.toKanbanCardStatus(),
                         )
                     }

@@ -16,7 +16,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import woowacourse.kanban.board.task.domain.KanbanCard
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
@@ -28,8 +27,8 @@ fun ModalForm(
     modifier: Modifier = Modifier,
     assignee: List<String>,
     onDismissRequest: () -> Unit,
-    onCreate: (KanbanCardForm, KanbanStatus) -> Unit = { _, _ -> },
-    onEdit: (KanbanCardForm, KanbanStatus) -> Unit = { _, _ -> },
+    onCreate: (KanbanCard, KanbanStatus) -> Unit = { _, _ -> },
+    onEdit: (KanbanCard, KanbanStatus) -> Unit = { _, _ -> },
     onDelete: () -> Unit = {},
 ) {
     val state = remember(editingCard?.id) {

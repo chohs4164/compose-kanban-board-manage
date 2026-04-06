@@ -27,7 +27,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import woowacourse.kanban.board.task.domain.KanbanBoard
 import woowacourse.kanban.board.task.domain.KanbanCard
-import woowacourse.kanban.board.task.domain.KanbanCardForm
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.modal.ModalForm
@@ -41,8 +40,8 @@ enum class TaskModalMode {
 @Composable
 fun KanbanBoardScreen(
     kanbanBoard: KanbanBoard,
-    onAddCard: (KanbanCardForm, KanbanStatus) -> Unit,
-    onEditCard: (String, KanbanCardForm, KanbanStatus) -> Unit,
+    onAddCard: (KanbanCard, KanbanStatus) -> Unit,
+    onEditCard: (String, KanbanCard, KanbanStatus) -> Unit,
     onDeleteCard: (String) -> Unit,
     modifier: Modifier = Modifier,
     getIsDropTarget: (KanbanStatus) -> Boolean = { false },
