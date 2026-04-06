@@ -1,9 +1,11 @@
 package woowacourse.kanban.board.task.domain
 
-import java.util.UUID
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-data class KanbanCard(
-    val id: String = UUID.randomUUID().toString(),
+
+data class KanbanCard @OptIn(ExperimentalUuidApi::class) constructor(
+    val id: String = Uuid.random().toString(),
     val title: String,
     val content: String = "",
     val status: KanbanStatus,
@@ -29,10 +31,10 @@ data class KanbanCard(
         }
         require(
             !(
-                status == KanbanStatus.TO_DO &&
-                    next == KanbanStatus.IN_PROGRESS &&
-                    assigneeName == null
-                ),
+                    status == KanbanStatus.TO_DO &&
+                            next == KanbanStatus.IN_PROGRESS &&
+                            assigneeName == null
+                    ),
         ) {
             "담당자를 지정해야 상태를 옮길 수 있습니다."
         }
