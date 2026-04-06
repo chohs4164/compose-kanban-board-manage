@@ -84,9 +84,10 @@ fun KanbanCardItem(
             color = Color.LightGray,
         )
 
-        KanbanCardProfile(
-            crewName = kanbanCard.assigneeName,
-        )
+        kanbanCard.assigneeName?.let { assigneeName ->
+            HorizontalDivider()
+            KanbanCardProfile(crewName = assigneeName)
+        }
     }
 }
 

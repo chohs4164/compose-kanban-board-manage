@@ -20,33 +20,32 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun KanbanCardProfile(crewName: String?, modifier: Modifier = Modifier) {
-    if (crewName != null) {
-        val imageModifier = Modifier
-            .size(24.dp)
-            .clip(CircleShape)
+fun KanbanCardProfile(crewName: String, modifier: Modifier = Modifier) {
 
-        Row(
-            modifier = modifier.padding(
-                end = 20.dp,
-                bottom = 10.dp,
-            ),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Default.AccountCircle,
-                contentDescription = "기본 이미지",
-                modifier = imageModifier,
-            )
+    val imageModifier = Modifier
+        .size(24.dp)
+        .clip(CircleShape)
 
-            Text(
-                text = crewName,
-                fontSize = 14.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-        }
+    Row(
+        modifier = modifier.padding(
+            end = 20.dp,
+            bottom = 10.dp,
+        ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Icon(
+            imageVector = Icons.Default.AccountCircle,
+            contentDescription = "기본 이미지",
+            modifier = imageModifier,
+        )
+
+        Text(
+            text = crewName,
+            fontSize = 14.sp,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
     }
 }
 
@@ -55,6 +54,5 @@ fun KanbanCardProfile(crewName: String?, modifier: Modifier = Modifier) {
 private fun KanbanCardProfilePreview() {
     Column {
         KanbanCardProfile(crewName = "바드")
-        KanbanCardProfile(crewName = null)
     }
 }
