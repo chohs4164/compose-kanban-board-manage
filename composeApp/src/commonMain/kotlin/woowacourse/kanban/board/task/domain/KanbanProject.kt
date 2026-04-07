@@ -33,8 +33,7 @@ data class KanbanProject(
             tags = tags,
         )
         val targetBoard = getBoard(boardId) ?: return null
-        val newCard = KanbanCard.create(card = card)
-        val addBoard = targetBoard.addCard(newCard)
+        val addBoard = targetBoard.addCard(card)
         val newBoards = boards.map {
             if (it.boardId == boardId) addBoard else it
         }

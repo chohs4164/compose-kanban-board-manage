@@ -62,16 +62,6 @@ data class KanbanCard @OptIn(ExperimentalUuidApi::class) constructor(
         const val MAX_TAG_COUNT = 5
         const val MAX_TAG_LENGTH = 5
 
-        fun create(card: KanbanCard): KanbanCard {
-            return KanbanCard(
-                title = card.title,
-                content = card.content,
-                status = card.status,
-                assigneeName = card.assigneeName,
-                tags = card.tags,
-            )
-        }
-
         fun validateTitle(title: String): KanbanCardError? {
             if (title.isBlank()) return KanbanCardError.TITLE_FORMAT
             return null
