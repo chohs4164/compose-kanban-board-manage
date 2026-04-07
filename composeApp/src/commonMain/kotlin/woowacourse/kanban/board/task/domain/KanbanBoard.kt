@@ -37,7 +37,7 @@ data class KanbanBoard(val boardId: Int, val title: String, val cards: List<Kanb
 
     fun deleteCard(cardId: String): KanbanBoard? {
         val targetCard = getCard(cardId) ?: return null
-        targetCard.validateDeletable()
+        if (!targetCard.isDeletable()) return null
         return copy(cards = cards.filterNot { it.id == cardId })
     }
 }

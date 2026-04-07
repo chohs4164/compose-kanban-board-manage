@@ -123,23 +123,24 @@ fun KanbanBoardScreen(
                     }
                 },
                 onDelete = {
-                    try {
-                        isShowEditTaskModal = false
-                        editingCard?.let { card ->
+                    editingCard?.let { card ->
+                        if (card.isDeletable()) {
                             onDeleteCard(card.id)
-                        }
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = "태스크가 삭제되었습니다.",
-                                duration = SnackbarDuration.Short,
-                            )
-                        }
-                    } catch (e: IllegalArgumentException) {
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                message = e.message ?: "해당 상태에서는 태스크 삭제가 불가합니다.",
-                                duration = SnackbarDuration.Short,
-                            )
+                            isShowEditTaskModal = false
+
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "태스크가 삭제되었습니다.",
+                                    duration = SnackbarDuration.Short,
+                                )
+                            }
+                        } else {
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    message = "해당 상태에서는 태스크 삭제가 불가합니다.",
+                                    duration = SnackbarDuration.Short,
+                                )
+                            }
                         }
                     }
                 },

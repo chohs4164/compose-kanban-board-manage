@@ -32,10 +32,10 @@ constructor(
         }
         require(
             !(
-                status == KanbanStatus.TO_DO &&
-                    next == KanbanStatus.IN_PROGRESS &&
-                    assigneeName == null
-                ),
+                    status == KanbanStatus.TO_DO &&
+                            next == KanbanStatus.IN_PROGRESS &&
+                            assigneeName == null
+                    ),
         ) {
             "담당자를 지정해야 상태를 옮길 수 있습니다."
         }
@@ -53,11 +53,9 @@ constructor(
         )
     }
 
-    fun validateDeletable() {
-        require(status != KanbanStatus.REVIEW && status != KanbanStatus.DONE) {
-            "해당 상태에서는 태스크 삭제가 불가합니다."
-        }
-    }
+    fun isDeletable(): Boolean =
+        status != KanbanStatus.REVIEW && status != KanbanStatus.DONE
+
 
     companion object {
         const val MAX_TAG_COUNT = 5
