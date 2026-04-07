@@ -66,8 +66,8 @@ fun KanbanBoardScreen(
     snackbarHostState: SnackbarHostState,
     scope: CoroutineScope,
 ) {
-    var editingCard by remember { mutableStateOf<KanbanCard?>(null) }
-    var taskModalMode by remember { mutableStateOf<TaskModalMode?>(null) }
+    var editingCard by remember(kanbanBoard.boardId) { mutableStateOf<KanbanCard?>(null) }
+    var taskModalMode by remember(kanbanBoard.boardId) { mutableStateOf<TaskModalMode?>(null) }
     var isShowAddTaskModal by remember { mutableStateOf(false) }
     var isShowEditTaskModal by remember { mutableStateOf(false) }
 
