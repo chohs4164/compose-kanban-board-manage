@@ -28,7 +28,6 @@ import kanbanboard.composeapp.generated.resources.place_holder_input_tags
 import kanbanboard.composeapp.generated.resources.place_holder_input_title
 import kanbanboard.composeapp.generated.resources.supporting_text_tags
 import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
 import woowacourse.kanban.board.task.ui.board.TaskModalMode
@@ -140,7 +139,7 @@ fun ModalBody(
         val selectedStatus = KanbanStatus.entries[state.status]
         val assigneeOptions = if (selectedStatus == KanbanStatus.TO_DO) {
             listOf(AssigneeOption(AssigneeOptionType.NONE)) +
-                    assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
+                assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         } else {
             assignee.map { AssigneeOption(AssigneeOptionType.MEMBER, it) }
         }

@@ -67,8 +67,8 @@ class KanbanProjectTest {
             title = "제목",
             content = "",
             assigneeName = "담당자",
-            tags = listOf("컴포넌트","성능"),
-            status = KanbanStatus.TO_DO
+            tags = listOf("컴포넌트", "성능"),
+            status = KanbanStatus.TO_DO,
         )
 
         assertThat(newProject).isNotNull()

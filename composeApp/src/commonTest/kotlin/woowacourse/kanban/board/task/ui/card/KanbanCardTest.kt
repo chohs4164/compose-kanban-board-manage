@@ -7,10 +7,10 @@ import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.runComposeUiTest
 import androidx.compose.ui.text.TextLayoutResult
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import org.junit.Test
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
-import kotlin.test.assertFailsWith
 
 @OptIn(ExperimentalTestApi::class)
 class KanbanCardTest {
