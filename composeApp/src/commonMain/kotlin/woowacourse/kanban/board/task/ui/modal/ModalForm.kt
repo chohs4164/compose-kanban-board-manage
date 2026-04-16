@@ -1,20 +1,19 @@
 package woowacourse.kanban.board.task.ui.modal
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import kanbanboard.composeapp.generated.resources.Res
+import kanbanboard.composeapp.generated.resources.button_create
+import kanbanboard.composeapp.generated.resources.button_edit
+import kanbanboard.composeapp.generated.resources.modal_title_edit_task
+import kanbanboard.composeapp.generated.resources.modal_title_new_task
+import org.jetbrains.compose.resources.stringResource
 import woowacourse.kanban.board.task.domain.KanbanCard
 import woowacourse.kanban.board.task.domain.KanbanStatus
 import woowacourse.kanban.board.task.domain.TaskMockData
@@ -46,38 +45,83 @@ fun ModalForm(
     val state = remember(editingCard?.id) {
         editingCard?.let { ModalFormState.from(it) } ?: ModalFormState()
     }
+    val title = when (modalMode) {
+        TaskModalMode.CREATE -> stringResource(Res.string.modal_title_new_task)
+        TaskModalMode.EDIT -> stringResource(Res.string.modal_title_edit_task)
+    }
+    val primaryButtonText = when (modalMode) {
+        TaskModalMode.CREATE -> stringResource(Res.string.button_create)
+        TaskModalMode.EDIT -> stringResource(Res.string.button_edit)
+    }
+
+    val onSubmit = {
+        if (state.validate()) {
+            val tags = if (state.tag.isEmpty()) {
+                emptyList()
+            } else {
+                state.tag.split(",").map { it.trim() }
+            }
+
+            val assigneeName = when (state.assignee.type) {
+                AssigneeOptionType.NONE -> null
+                AssigneeOptionType.MEMBER -> state.assignee.name
+            }
+
+            val status = state.toKanbanCardStatus()
+
+            when (modalMode) {
+                TaskModalMode.CREATE -> onCreate(
+                    state.title,
+                    state.content,
+                    assigneeName,
+                    tags,
+                    status,
+                )
+
+                TaskModalMode.EDIT -> onEdit(
+                    state.title,
+                    state.content,
+                    assigneeName,
+                    tags,
+                    status,
+                )
+            }
+        }
+    }
 
     Dialog(
         onDismissRequest = onDismissRequest,
     ) {
-        Column(
-            modifier = modifier
-                .clip(RoundedCornerShape(10.dp))
-                .background(Color.White)
-                .border(
-                    1.dp,
-                    Color.LightGray,
-                    RoundedCornerShape(10.dp),
-                ),
-        ) {
-            ModalHeader(
-                modalMode = modalMode,
-                onDismissRequest = onDismissRequest,
-            )
-
-            HorizontalDivider(color = Color.LightGray)
-
-            ModalBody(
-                modifier = Modifier,
-                modalMode = modalMode,
-                state = state,
-                assignee = assignee,
-                onDismissRequest = onDismissRequest,
-                onCreate = onCreate,
-                onEdit = onEdit,
-                onDelete = onDelete,
-            )
-        }
+        TaskFormSlot(
+            modifier = modifier,
+            title = {
+                ModalHeader(
+                    title = title,
+                    onDismissRequest = onDismissRequest,
+                )
+            },
+            content = {
+                ModalBody(
+                    state = state,
+                    assignee = assignee,
+                )
+            },
+            actions = {
+                ModalAction(
+                    primaryText = primaryButtonText,
+                    isPrimaryEnabled = state.isValidTitle && state.isValidTag,
+                    onDismissRequest = onDismissRequest,
+                    onPrimaryClick = onSubmit,
+                    extraAction = if (modalMode == TaskModalMode.EDIT) {
+                        {
+                            ModalDeleteAction(onDeleteClick = onDelete)
+                        }
+                    } else {
+                        null
+                    },
+                )
+            },
+        )
     }
 }
 

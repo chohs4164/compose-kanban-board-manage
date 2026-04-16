@@ -15,18 +15,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kanbanboard.composeapp.generated.resources.Res
-import kanbanboard.composeapp.generated.resources.modal_title_edit_task
-import kanbanboard.composeapp.generated.resources.modal_title_new_task
-import org.jetbrains.compose.resources.stringResource
-import woowacourse.kanban.board.task.ui.board.TaskModalMode
 
 @Composable
-fun ModalHeader(modalMode: TaskModalMode, onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
+fun ModalHeader(title: String, onDismissRequest: () -> Unit, modifier: Modifier = Modifier) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -35,10 +28,7 @@ fun ModalHeader(modalMode: TaskModalMode, onDismissRequest: () -> Unit, modifier
             .padding(24.dp),
     ) {
         Text(
-            text = when (modalMode) {
-                TaskModalMode.CREATE -> stringResource(Res.string.modal_title_new_task)
-                TaskModalMode.EDIT -> stringResource(Res.string.modal_title_edit_task)
-            },
+            text = title,
             fontSize = 20.sp,
             fontWeight = FontWeight.SemiBold,
         )
@@ -50,18 +40,11 @@ fun ModalHeader(modalMode: TaskModalMode, onDismissRequest: () -> Unit, modifier
     }
 }
 
-private class ModalHeaderPreviewParameterProvider : PreviewParameterProvider<TaskModalMode> {
-    override val values = sequenceOf(
-        TaskModalMode.CREATE,
-        TaskModalMode.EDIT,
-    )
-}
-
 @Preview
 @Composable
-private fun ModalHeaderPreview(@PreviewParameter(ModalHeaderPreviewParameterProvider::class) taskModalMode: TaskModalMode) {
+private fun ModalHeaderPreview() {
     ModalHeader(
-        modalMode = taskModalMode,
-        onDismissRequest = { },
+        title = "새 태스크 생성",
+        onDismissRequest = {},
     )
 }

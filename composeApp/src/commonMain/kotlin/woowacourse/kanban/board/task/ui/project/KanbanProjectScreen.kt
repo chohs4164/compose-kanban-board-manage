@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -42,11 +41,7 @@ fun KanbanProjectScreen(modifier: Modifier = Modifier) {
 
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
-    var kanbanBoard by remember { mutableStateOf<KanbanBoard?>(null) }
-
-    LaunchedEffect(selectedBoardId) {
-        kanbanBoard = kanbanProject.getBoard(selectedBoardId)
-    }
+    val kanbanBoard: KanbanBoard? = kanbanProject.getBoard(selectedBoardId)
 
     kanbanBoard?.let { board ->
         Row(modifier = modifier) {
